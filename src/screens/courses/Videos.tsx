@@ -22,6 +22,7 @@ import PlayerOptions from '../../components/PlayerOptions';
 import {checkSimulater} from '../../libs/check';
 import {startDownload} from '../../libs/download';
 import {baseUrl, downloadPath} from '../../libs/vars';
+import {Title} from '../../styled/Title';
 
 const {width} = Dimensions.get('window');
 
@@ -135,12 +136,12 @@ function Videos({navigation, route}: any) {
                     width={isFullScreen ? '100%' : width}
                     height={isFullScreen ? width : (width * 9) / 16}
                     toggleFullScreen={toggleFullScreen}
+                    changeVideo={changeVideo}
                   />
 
                   <PlayerOptions
                     qualities={currentVideo.qualities}
                     speeds={[0.25, 0.5, 1.0, 1.5, 2.0]}
-                    changeVideo={changeVideo}
                   />
                 </>
               )}
@@ -211,8 +212,6 @@ function Videos({navigation, route}: any) {
                         <View
                           style={{
                             flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
                           }}>
                           {isReady &&
                             (files[quality.id]?.status === 'downloading' ? (
