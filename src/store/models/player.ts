@@ -41,7 +41,7 @@ export const playerModel = {
         : null;
 
     const previousVideo =
-      currentVideoIndex - 1 > 0 ? state.videoList[currentVideoIndex - 1] : null;
+      currentVideoIndex !== 0 ? state.videoList[currentVideoIndex - 1] : null;
 
     state.progress = 0;
     state.duration = 0;

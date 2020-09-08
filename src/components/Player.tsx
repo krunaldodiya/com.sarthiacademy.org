@@ -54,30 +54,6 @@ const Player = ({
     return moment.utc(d * 1000).format('mm:ss');
   };
 
-  const hasPreviousVideo = (indexVideo: any) => {
-    const index = videoList.findIndex(
-      (video: any) => video.id === indexVideo.id,
-    );
-
-    if (index !== 0) {
-      return true;
-    }
-
-    return false;
-  };
-
-  const hasNextVideo = (indexVideo: any) => {
-    const index = videoList.findIndex(
-      (video: any) => video.id === indexVideo.id,
-    );
-
-    if (index + 1 < videoList.length) {
-      return true;
-    }
-
-    return false;
-  };
-
   const destination =
     files[quality.id] && files[quality.id]?.status === 'done'
       ? `${downloadPath}/${quality.id}.mp4`
@@ -162,12 +138,10 @@ const Player = ({
                     type="AntDesign"
                     name="stepbackward"
                     size={26}
-                    color={hasPreviousVideo(currentVideo) ? '#fff' : '#333'}
+                    color={previousVideo ? '#fff' : '#333'}
                     style={styles.icon}
                     onPress={() => {
-                      if (hasPreviousVideo(currentVideo)) {
-                        changeVideo(previousVideo);
-                      }
+                      changeVideo(previousVideo);
                     }}
                   />
                   <Icon
@@ -189,12 +163,10 @@ const Player = ({
                     type="AntDesign"
                     name="stepforward"
                     size={26}
-                    color={hasNextVideo(currentVideo) ? '#fff' : '#333'}
+                    color={nextVideo ? '#fff' : '#333'}
                     style={styles.icon}
                     onPress={() => {
-                      if (hasNextVideo(currentVideo)) {
-                        changeVideo(nextVideo);
-                      }
+                      changeVideo(nextVideo);
                     }}
                   />
                 </View>
