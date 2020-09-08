@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1004058466223",
+    "firebase_url": "https://sarthi-academy.firebaseio.com",
+    "project_id": "sarthi-academy",
+    "storage_bucket": "sarthi-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004058466223:android:d8bf683211b48e5807c15a",
+        "android_client_info": {
+          "package_name": "com.sarthiacademy.org"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1004058466223-a04fdlhmesqsrf274ajn8tqjncuf5pcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB09pU5P10ZgT_dbalC8AsMu2OW1O6HXjc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1004058466223-a04fdlhmesqsrf274ajn8tqjncuf5pcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
