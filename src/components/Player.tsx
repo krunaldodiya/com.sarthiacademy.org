@@ -22,6 +22,7 @@ const Player = ({
   changeVideo,
 }: any) => {
   const {
+    videoList,
     currentVideo,
     nextVideo,
     previousVideo,
@@ -51,6 +52,30 @@ const Player = ({
 
   const secondsToHms = (d) => {
     return moment.utc(d * 1000).format('mm:ss');
+  };
+
+  const hasPreviousVideo = (indexVideo: any) => {
+    const index = videoList.findIndex(
+      (video: any) => video.id === indexVideo.id,
+    );
+
+    if (index !== 0) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const hasNextVideo = (indexVideo: any) => {
+    const index = videoList.findIndex(
+      (video: any) => video.id === indexVideo.id,
+    );
+
+    if (index + 1 < videoList.length) {
+      return true;
+    }
+
+    return false;
   };
 
   const destination =
@@ -137,9 +162,13 @@ const Player = ({
                     type="AntDesign"
                     name="stepbackward"
                     size={26}
-                    color={previousVideo ? '#fff' : '#333'}
+                    color={hasPreviousVideo(currentVideo) ? '#fff' : '#333'}
                     style={styles.icon}
-                    onPress={() => previousVideo && changeVideo(previousVideo)}
+                    onPress={() => {
+                      if (hasPreviousVideo(currentVideo)) {
+                        changeVideo(previousVideo);
+                      }
+                    }}
                   />
                   <Icon
                     type="MaterialCommunityIcons"
@@ -160,9 +189,13 @@ const Player = ({
                     type="AntDesign"
                     name="stepforward"
                     size={26}
-                    color={nextVideo ? '#fff' : '#333'}
+                    color={hasNextVideo(currentVideo) ? '#fff' : '#333'}
                     style={styles.icon}
-                    onPress={() => nextVideo && changeVideo(nextVideo)}
+                    onPress={() => {
+                      if (hasNextVideo(currentVideo)) {
+                        changeVideo(nextVideo);
+                      }
+                    }}
                   />
                 </View>
               </View>
