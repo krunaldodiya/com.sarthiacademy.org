@@ -66,6 +66,15 @@ function Videos({navigation, route}: any) {
     setQuality(chapter?.videos[0].qualities[0]);
   }, [setVideoList, setCurrentVideo, setQuality, chapter]);
 
+  const changeVideo = (item) => {
+    setIsReady(false);
+    setCurrentVideo(item);
+    setQuality(item.qualities[0]);
+    setIsReady(true);
+
+    playerRef.current.seek(0);
+  };
+
   const toggleFullScreen = useCallback(
     (backButtonPressed: boolean) => {
       if (isFullScreen) {
@@ -131,6 +140,7 @@ function Videos({navigation, route}: any) {
                   <PlayerOptions
                     qualities={currentVideo.qualities}
                     speeds={[0.25, 0.5, 1.0, 1.5, 2.0]}
+                    changeVideo={changeVideo}
                   />
                 </>
               )}
@@ -164,14 +174,7 @@ function Videos({navigation, route}: any) {
                         marginBottom: 5,
                       }}
                       activeOpacity={0.7}
-                      onPress={() => {
-                        setIsReady(false);
-                        setCurrentVideo(item);
-                        setQuality(item.qualities[0]);
-                        setIsReady(true);
-
-                        playerRef.current.seek(0);
-                      }}>
+                      onPress={() => changeVideo(item)}>
                       <View
                         style={{
                           flexDirection: 'row',

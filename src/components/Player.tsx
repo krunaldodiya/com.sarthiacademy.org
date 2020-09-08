@@ -14,7 +14,13 @@ import Slider from 'react-native-slider';
 import Video from 'react-native-video';
 import {downloadPath} from '../libs/vars';
 
-const Player = ({toggleFullScreen, width, height, playerRef}: any) => {
+const Player = ({
+  toggleFullScreen,
+  width,
+  height,
+  playerRef,
+  changeVideo,
+}: any) => {
   const {
     currentVideo,
     nextVideo,
@@ -133,9 +139,7 @@ const Player = ({toggleFullScreen, width, height, playerRef}: any) => {
                     size={26}
                     color={previousVideo ? '#fff' : '#333'}
                     style={styles.icon}
-                    onPress={() => {
-                      return previousVideo && setCurrentVideo(previousVideo);
-                    }}
+                    onPress={() => previousVideo && changeVideo(previousVideo)}
                   />
                   <Icon
                     type="MaterialCommunityIcons"
@@ -158,9 +162,7 @@ const Player = ({toggleFullScreen, width, height, playerRef}: any) => {
                     size={26}
                     color={nextVideo ? '#fff' : '#333'}
                     style={styles.icon}
-                    onPress={() => {
-                      return nextVideo && setCurrentVideo(nextVideo);
-                    }}
+                    onPress={() => nextVideo && changeVideo(nextVideo)}
                   />
                 </View>
               </View>
