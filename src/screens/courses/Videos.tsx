@@ -106,6 +106,15 @@ function Videos({navigation, route}: any) {
     return <ActivityIndicator style={{flex: 1, justifyContent: 'center'}} />;
   }
 
+  const getDownloadStatus = (item: any) => {
+    const playingQuality =
+      item.id === currentVideo.id ? quality : item.qualities[0];
+
+    return files[playingQuality.id]
+      ? files[playingQuality.id].status
+      : 'pending';
+  };
+
   return (
     <>
       <StatusBar
@@ -163,8 +172,7 @@ function Videos({navigation, route}: any) {
                 data={videoList}
                 style={{margin: 10}}
                 renderItem={({item}) => {
-                  const isDownloaded: boolean =
-                    files[quality.id] && files[quality.id].status === 'done';
+                  const downloadStatus: string = getDownloadStatus(item);
 
                   return (
                     <TouchableOpacity
@@ -209,12 +217,9 @@ function Videos({navigation, route}: any) {
                           </Text>
                         </View>
 
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                          }}>
+                        <View style={{flexDirection: 'row'}}>
                           {isReady &&
-                            (files[quality.id]?.status === 'downloading' ? (
+                            (downloadStatus === 'downloading' ? (
                               <ActivityIndicator
                                 color="#000"
                                 style={{marginRight: 10}}
@@ -223,7 +228,7 @@ function Videos({navigation, route}: any) {
                               <Icon
                                 type="MaterialCommunityIcons"
                                 name={
-                                  isDownloaded
+                                  downloadStatus === 'done'
                                     ? 'check-circle-outline'
                                     : 'download-box'
                                 }
@@ -231,7 +236,7 @@ function Videos({navigation, route}: any) {
                                 color="#000"
                                 style={{marginRight: 5}}
                                 onPress={async () => {
-                                  if (isDownloaded) {
+                                  if (downloadStatus === 'done') {
                                     return false;
                                   }
 
