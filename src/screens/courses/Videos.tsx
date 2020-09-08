@@ -106,10 +106,7 @@ function Videos({navigation, route}: any) {
     return <ActivityIndicator style={{flex: 1, justifyContent: 'center'}} />;
   }
 
-  const getDownloadStatus = (item: any) => {
-    const playingQuality =
-      item.id === currentVideo.id ? quality : item.qualities[0];
-
+  const getDownloadStatus = (playingQuality: any, item: any) => {
     return files[playingQuality.id]
       ? files[playingQuality.id].status
       : 'pending';
@@ -172,7 +169,13 @@ function Videos({navigation, route}: any) {
                 data={videoList}
                 style={{margin: 10}}
                 renderItem={({item}) => {
-                  const downloadStatus: string = getDownloadStatus(item);
+                  const playingQuality =
+                    item.id === currentVideo.id ? quality : item.qualities[0];
+
+                  const downloadStatus: string = getDownloadStatus(
+                    playingQuality,
+                    item,
+                  );
 
                   return (
                     <TouchableOpacity
@@ -240,17 +243,24 @@ function Videos({navigation, route}: any) {
                                     return false;
                                   }
 
-                                  setFiles({id: quality.id, progress: 0});
+                                  setFiles({
+                                    id: playingQuality.id,
+                                    progress: 0,
+                                  });
 
                                   const task = await RNBackgroundDownloader.download(
                                     {
-                                      id: quality.id,
-                                      url: quality.link,
-                                      destination: `${downloadPath}/${quality.id}.mp4`,
+                                      id: playingQuality.id,
+                                      url: playingQuality.link,
+                                      destination: `${downloadPath}/${playingQuality.id}.mp4`,
                                     },
                                   );
 
-                                  startDownload(task, quality.id, setFiles);
+                                  startDownload(
+                                    task,
+                                    playingQuality.id,
+                                    setFiles,
+                                  );
                                 }}
                               />
                             ))}
