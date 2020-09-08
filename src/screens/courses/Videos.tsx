@@ -165,10 +165,12 @@ function Videos({navigation, route}: any) {
                       }}
                       activeOpacity={0.7}
                       onPress={() => {
-                        playerRef.current.seek(0);
                         setIsReady(false);
                         setCurrentVideo(item);
                         setQuality(item.qualities[0]);
+                        setIsReady(true);
+
+                        playerRef.current.seek(0);
                       }}>
                       <View
                         style={{
