@@ -22,7 +22,6 @@ import PlayerOptions from '../../components/PlayerOptions';
 import {checkSimulater} from '../../libs/check';
 import {startDownload} from '../../libs/download';
 import {baseUrl, downloadPath} from '../../libs/vars';
-import {Title} from '../../styled/Title';
 
 const {width} = Dimensions.get('window');
 
@@ -34,6 +33,7 @@ function Videos({navigation, route}: any) {
   const [isSimEmu, setIsSimEmu] = useState(null);
 
   const {
+    isPaused,
     isReady,
     currentVideo,
     isFullScreen,
@@ -44,6 +44,7 @@ function Videos({navigation, route}: any) {
   const {files}: any = useStoreState((state) => state.download);
 
   const {
+    setIsPaused,
     setVideoList,
     setCurrentVideo,
     setQuality,
@@ -186,7 +187,11 @@ function Videos({navigation, route}: any) {
                         marginBottom: 5,
                       }}
                       activeOpacity={0.7}
-                      onPress={() => changeVideo(item)}>
+                      onPress={() => {
+                        if (currentVideo.id !== item.id) {
+                          changeVideo(item);
+                        }
+                      }}>
                       <View
                         style={{
                           flexDirection: 'row',
@@ -265,6 +270,9 @@ function Videos({navigation, route}: any) {
                               />
                             ))}
                           <Icon
+                            onPress={() => {
+                              setIsPaused(!!isPaused);
+                            }}
                             type="MaterialIcons"
                             name={
                               item.id === currentVideo.id
