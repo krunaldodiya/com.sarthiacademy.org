@@ -128,4 +128,9 @@ export const screens: {[key: string]: {name: string; type: string}} = {
     name: 'YTPlayer',
     type: 'Auth',
   },
+
+  VideoPlayer: {
+    name: 'VideoPlayer',
+    type: 'Auth',
+  },
 };

@@ -6,6 +6,7 @@ import {Image, TouchableOpacity} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
 import Icon from 'react-native-dynamic-vector-icons';
 import {useQuery} from 'react-query';
+import VideoPlayer from '../screens/courses/VideoPlayer';
 import {useTheme} from 'styled-components';
 import {authUserApi} from '../api/authUserApi';
 import {startDownload} from '../libs/download';
@@ -188,7 +189,16 @@ function RootStackNavigator(props: any) {
         <RootStack.Screen
           name={screens.Videos.name}
           component={Videos}
-          options={{header: () => null}}
+          options={({route}) => {
+            return {
+              headerTintColor: theme.color.primary,
+              headerTitle: route.params.chapter.name,
+              headerTitleStyle: {color: theme.color.primary},
+              headerStyle: {
+                backgroundColor: theme.backgroundColor.primary,
+              },
+            };
+          }}
         />
 
         <RootStack.Screen name={screens.Feedback.name} component={Feedback} />
@@ -218,6 +228,12 @@ function RootStackNavigator(props: any) {
         <RootStack.Screen
           name={screens.YTPlayer.name}
           component={YTPlayer}
+          options={{header: () => null}}
+        />
+
+        <RootStack.Screen
+          name={screens.VideoPlayer.name}
+          component={VideoPlayer}
           options={{header: () => null}}
         />
       </RootStack.Navigator>

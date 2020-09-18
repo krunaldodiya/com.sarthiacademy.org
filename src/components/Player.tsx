@@ -70,6 +70,8 @@ const Player = ({
           setShowOverlay(true);
         }}
         style={{width, height}}>
+        <Text>{JSON.stringify(isReady)}</Text>
+
         <Video
           ref={playerRef}
           rate={speed}
@@ -84,6 +86,7 @@ const Player = ({
           onProgress={(data) => {
             setProgress(data.currentTime);
           }}
+          onLoadStart={() => null}
           onLoad={(data) => {
             setIsReady(false);
             setProgress(data.currentTime);
@@ -96,19 +99,6 @@ const Player = ({
             setIsReady(true);
           }}
         />
-
-        {!isReady && (
-          <ActivityIndicator
-            color="#fff"
-            size="large"
-            style={{
-              position: 'absolute',
-              top: height / 2 - 20,
-              left: 0,
-              right: 0,
-            }}
-          />
-        )}
 
         <View style={styles.overlay}>
           {showOverlay && (
@@ -144,21 +134,36 @@ const Player = ({
                       changeVideo(previousVideo);
                     }}
                   />
-                  <Icon
-                    type="MaterialCommunityIcons"
-                    name={isFinished ? 'replay' : isPaused ? 'play' : 'pause'}
-                    size={36}
-                    color="#fff"
-                    style={styles.icon}
-                    onPress={() => {
-                      if (isFinished) {
-                        playerRef.current.seek(0);
-                        setCurrentVideo(currentVideo);
-                      } else {
-                        setIsPaused(!isPaused);
-                      }
-                    }}
-                  />
+
+                  {!isReady ? (
+                    <ActivityIndicator
+                      color="#fff"
+                      size="large"
+                      style={{
+                        position: 'absolute',
+                        top: height / 2 - 20,
+                        left: 0,
+                        right: 0,
+                      }}
+                    />
+                  ) : (
+                    <Icon
+                      type="MaterialCommunityIcons"
+                      name={isFinished ? 'replay' : isPaused ? 'play' : 'pause'}
+                      size={36}
+                      color="#fff"
+                      style={styles.icon}
+                      onPress={() => {
+                        if (isFinished) {
+                          playerRef.current.seek(0);
+                          setCurrentVideo(currentVideo);
+                        } else {
+                          setIsPaused(!isPaused);
+                        }
+                      }}
+                    />
+                  )}
+
                   <Icon
                     type="AntDesign"
                     name="stepforward"

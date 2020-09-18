@@ -1,67 +1,45 @@
 import {action} from 'easy-peasy';
 
-export const playerModel = {
-  videoList: [],
-  currentVideo: null,
-  previousVideo: null,
-  nextVideo: null,
+const initialState = {
   isFinished: false,
+  isMuted: false,
   isPaused: false,
   isFullScreen: false,
-  showOverlay: false,
+  isReady: false,
+  isBuffering: false,
   progress: 0,
   duration: 0,
   speed: 1,
   quality: null,
-  showModal: false,
-  isReady: false,
+  showControls: false,
+  showOptions: false,
+};
+
+export const playerModel = {
+  ...initialState,
+
+  loadPlayer: action((state) => {
+    return {...state, ...initialState};
+  }),
+
+  setIsBuffering: action((state: any, isBuffering: any) => {
+    state.isBuffering = isBuffering;
+  }),
 
   setIsReady: action((state: any, isReady: any) => {
     state.isReady = isReady;
-  }),
-
-  setVideoList: action((state: any, videoList: any) => {
-    state.videoList = videoList;
-  }),
-
-  setCurrentVideo: action((state: any, currentVideo: any) => {
-    if (currentVideo === null) {
-      return;
-    }
-
-    const totalVideos: number = state.videoList.length;
-
-    const currentVideoIndex = state.videoList.findIndex(
-      (list: any) => list.id === currentVideo.id,
-    );
-
-    const nextVideo =
-      currentVideoIndex + 1 < totalVideos
-        ? state.videoList[currentVideoIndex + 1]
-        : null;
-
-    const previousVideo =
-      currentVideoIndex !== 0 ? state.videoList[currentVideoIndex - 1] : null;
-
-    state.progress = 0;
-    state.duration = 0;
-    state.isFinished = false;
-    state.isPaused = false;
-    state.currentVideo = currentVideo;
-    state.nextVideo = nextVideo;
-    state.previousVideo = previousVideo;
   }),
 
   setIsFullScreen: action((state: any, fullScreen: any) => {
     state.isFullScreen = fullScreen;
   }),
 
-  setShowOverlay: action((state: any, showOverlay: any) => {
-    state.showOverlay = showOverlay;
+  setShowControls: action((state: any, showControls: any) => {
+    state.showControls = showControls;
   }),
 
-  setShowModal: action((state: any, payload: any) => {
-    state.showModal = payload;
+  setShowOptions: action((state: any, payload: any) => {
+    state.showOptions = payload;
     state.isPaused = payload;
   }),
 
