@@ -1,6 +1,6 @@
 import {useStoreActions, useStoreState} from 'easy-peasy';
-import React, {memo, useEffect, useRef} from 'react';
-import {Dimensions, View} from 'react-native';
+import React, {memo, useEffect, useRef, useState} from 'react';
+import {Dimensions, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Video from 'react-native-video';
 import PlayerControls from './PlayerControls';
@@ -10,6 +10,7 @@ const {width, height} = Dimensions.get('window');
 
 const Player = ({source, currentVideo, nextVideo, previousVideo}: any) => {
   const playerRef = useRef(null);
+  const [timerId, setTimerId] = useState();
 
   const {
     loadPlayer,
@@ -36,9 +37,25 @@ const Player = ({source, currentVideo, nextVideo, previousVideo}: any) => {
     loadPlayer();
   }, [loadPlayer]);
 
+  const manageOverlay = () => {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
+    setShowControls(true);
+
+    const timer = () => {
+      return setTimeout(() => {
+        setShowControls(false);
+      }, 3000);
+    };
+
+    setTimerId(timer());
+  };
+
   return (
     <View style={{flex: 1}}>
-      <TouchableOpacity onPress={() => null}>
+      <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
         <Video
           ref={playerRef}
           rate={speed}
