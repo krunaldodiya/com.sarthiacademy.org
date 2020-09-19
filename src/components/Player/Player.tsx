@@ -7,6 +7,7 @@ import Video from 'react-native-video';
 import {checkSimulater} from '../../libs/check';
 import PlayerControls from './PlayerControls';
 import PlayerOptions from './PlayerOptions';
+import PlayerOptionsModal from './PlayerOptionsModal';
 
 const {width, height} = Dimensions.get('window');
 
@@ -34,6 +35,7 @@ const Player = (props: any) => {
     speed,
     quality,
     showControls,
+    showOptions,
     isFullScreen,
     isBuffering,
     isMuted,
@@ -79,6 +81,10 @@ const Player = (props: any) => {
   }, []);
 
   const manageOverlay = () => {
+    if (showControls) {
+      return;
+    }
+
     if (timerId) {
       clearTimeout(timerId);
     }
@@ -159,6 +165,16 @@ const Player = (props: any) => {
 
       {!isFullScreen && (
         <PlayerOptions
+          {...props}
+          currentVideo={currentVideo}
+          nextVideo={nextVideo}
+          previousVideo={previousVideo}
+          chapter={chapter}
+        />
+      )}
+
+      {showOptions && (
+        <PlayerOptionsModal
           {...props}
           currentVideo={currentVideo}
           nextVideo={nextVideo}

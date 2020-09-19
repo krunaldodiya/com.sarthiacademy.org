@@ -1,9 +1,12 @@
+import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useTheme} from 'styled-components';
 
 const PlayerOptions = () => {
   const theme = useTheme();
+
+  const {setShowOptions} = useStoreActions((actions) => actions.player);
 
   return (
     <View style={{flex: 1}}>
@@ -13,7 +16,9 @@ const PlayerOptions = () => {
           justifyContent: 'space-evenly',
           margin: 2,
         }}>
-        <View style={styles.option}>
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => setShowOptions('download')}>
           <Text
             style={[
               styles.optionText,
@@ -21,27 +26,17 @@ const PlayerOptions = () => {
             ]}>
             Download
           </Text>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.option}>
+        <TouchableOpacity style={styles.option} onPress={() => null}>
           <Text
             style={[
               styles.optionText,
               {fontFamily: theme.fontFamily.QuicksandBold},
             ]}>
-            240p
+            Add To Favorite
           </Text>
-        </View>
-
-        <View style={styles.option}>
-          <Text
-            style={[
-              styles.optionText,
-              {fontFamily: theme.fontFamily.QuicksandBold},
-            ]}>
-            1.0x
-          </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

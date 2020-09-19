@@ -34,11 +34,12 @@ const PlayerControls = (props: any) => {
     isPaused,
     isFinished,
     isFullScreen,
-    isReady,
     isBuffering,
   } = useStoreState((state) => state.player);
 
-  const {setIsPaused} = useStoreActions((actions) => actions.player);
+  const {setIsPaused, setShowOptions} = useStoreActions(
+    (actions) => actions.player,
+  );
 
   return (
     <View style={styles.overlay}>
@@ -58,7 +59,8 @@ const PlayerControls = (props: any) => {
               color={previousVideo ? '#fff' : '#333'}
               style={styles.icon}
               onPress={() => {
-                navigation.replace({video: previousVideo, chapter});
+                previousVideo &&
+                  navigation.replace({video: previousVideo, chapter});
               }}
             />
 
@@ -88,7 +90,7 @@ const PlayerControls = (props: any) => {
               color={nextVideo ? '#fff' : '#333'}
               style={styles.icon}
               onPress={() => {
-                navigation.replace({video: nextVideo, chapter});
+                nextVideo && navigation.replace({video: nextVideo, chapter});
               }}
             />
           </View>
@@ -102,10 +104,9 @@ const PlayerControls = (props: any) => {
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
-                width: 110,
                 alignItems: 'center',
                 justifyContent: 'center',
-                bottom: 0,
+                marginHorizontal: 5,
               }}>
               <Text style={{color: '#fff'}}>
                 {secondsToHms(progress)} / {secondsToHms(duration)}
@@ -128,13 +129,46 @@ const PlayerControls = (props: any) => {
               />
             </View>
 
-            <View style={{width: 40, alignItems: 'center', bottom: -5}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginHorizontal: 3,
+              }}>
               <Icon
-                type="MaterialIcons"
+                type="MaterialCommunityIcons"
+                name="quality-high"
+                size={26}
+                color="#fff"
+                onPress={() => setShowOptions('quality')}
+                style={{
+                  marginLeft: 3,
+                  marginRight: 3,
+                }}
+              />
+
+              <Icon
+                type="MaterialCommunityIcons"
+                name="play-speed"
+                size={26}
+                color="#fff"
+                onPress={() => setShowOptions('speed')}
+                style={{
+                  marginLeft: 3,
+                  marginRight: 3,
+                }}
+              />
+
+              <Icon
+                type="MaterialCommunityIcons"
                 name={isFullScreen ? 'fullscreen-exit' : 'fullscreen'}
                 size={26}
                 color="#fff"
                 onPress={() => toggleFullScreen(false)}
+                style={{
+                  marginLeft: 3,
+                  marginRight: 3,
+                }}
               />
             </View>
           </View>

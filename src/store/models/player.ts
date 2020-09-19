@@ -12,7 +12,7 @@ const initialState = {
   speed: 1,
   quality: null,
   showControls: false,
-  showOptions: false,
+  showOptions: null,
 };
 
 export const playerModel = {
@@ -38,18 +38,16 @@ export const playerModel = {
     state.showControls = showControls;
   }),
 
-  setShowOptions: action((state: any, payload: any) => {
-    state.showOptions = payload;
-    state.isPaused = payload;
+  setShowOptions: action((state: any, showOptions: any) => {
+    state.showOptions = showOptions;
   }),
 
   setIsPaused: action((state: any, isPaused: any) => {
     state.isPaused = isPaused;
   }),
 
-  setIsFinished: action((state: any, isFinished: any) => {
-    state.finished = isFinished;
-    state.isPaused = true;
+  setIsFinished: action((state: any) => {
+    state.finished = true;
   }),
 
   setProgress: action((state: any, progress: any) => {
