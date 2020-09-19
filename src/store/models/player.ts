@@ -47,7 +47,7 @@ export const playerModel = {
   }),
 
   setIsFinished: action((state: any) => {
-    state.finished = true;
+    state.isFinished = true;
   }),
 
   setProgress: action((state: any, progress: any) => {

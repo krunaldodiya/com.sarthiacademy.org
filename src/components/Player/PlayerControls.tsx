@@ -1,17 +1,10 @@
 import {useStoreActions, useStoreState} from 'easy-peasy';
 import moment from 'moment';
 import React, {memo} from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import Slider from 'react-native-slider';
-
-const {width, height} = Dimensions.get('window');
+import {screens} from '../../libs/screens';
 
 const PlayerControls = (props: any) => {
   const {
@@ -60,7 +53,10 @@ const PlayerControls = (props: any) => {
               style={styles.icon}
               onPress={() => {
                 previousVideo &&
-                  navigation.replace({video: previousVideo, chapter});
+                  navigation.replace(screens.VideoPlayer.name, {
+                    video: previousVideo,
+                    chapter,
+                  });
               }}
             />
 
@@ -75,7 +71,10 @@ const PlayerControls = (props: any) => {
                 style={styles.icon}
                 onPress={() => {
                   if (isFinished) {
-                    navigation.replace({video: currentVideo, chapter});
+                    navigation.replace(screens.VideoPlayer.name, {
+                      video: currentVideo,
+                      chapter,
+                    });
                   } else {
                     setIsPaused(!isPaused);
                   }
@@ -90,7 +89,11 @@ const PlayerControls = (props: any) => {
               color={nextVideo ? '#fff' : '#333'}
               style={styles.icon}
               onPress={() => {
-                nextVideo && navigation.replace({video: nextVideo, chapter});
+                nextVideo &&
+                  navigation.replace(screens.VideoPlayer.name, {
+                    video: nextVideo,
+                    chapter,
+                  });
               }}
             />
           </View>
