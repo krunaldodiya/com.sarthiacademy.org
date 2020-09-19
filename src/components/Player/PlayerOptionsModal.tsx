@@ -11,17 +11,27 @@ const PlayerOptionsModal = () => {
     <View
       style={{
         position: 'absolute',
-        backgroundColor: 'white',
-        width: width - 40,
-        height: width - 40,
-        marginTop: 20,
-        marginLeft: 20,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        width: '100%',
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      {showOptions === 'download' && <Text>download</Text>}
-      {showOptions === 'quality' && <Text>quality</Text>}
-      {showOptions === 'speed' && <Text>speed</Text>}
+      <View
+        style={{
+          position: 'absolute',
+          backgroundColor: '#fff',
+          borderRadius: 10,
+          elevation: 10,
+          width: width - 40,
+          height: width - 40,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        {showOptions === 'download' && <Text>download</Text>}
+        {showOptions === 'quality' && <Text>quality</Text>}
+        {showOptions === 'speed' && <Text>speed</Text>}
+      </View>
     </View>
   );
 };
