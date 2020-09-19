@@ -19,6 +19,7 @@ const PlayerOptionsModal = (props: any) => {
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 1,
       }}>
       <View
         style={{

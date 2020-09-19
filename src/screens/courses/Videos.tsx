@@ -54,6 +54,7 @@ function Videos({navigation, route}: any) {
                     width,
                     height: (width * 9) / 16,
                     backgroundColor: theme.backgroundColor.secondary,
+                    marginBottom: 10,
                   }}>
                   <View style={{padding: 10}}>
                     <Text

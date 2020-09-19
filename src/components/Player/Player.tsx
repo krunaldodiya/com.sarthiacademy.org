@@ -42,6 +42,8 @@ const Player = (props: any) => {
     isPaused,
   }: any = useStoreState((state) => state.player);
 
+  const playerState: any = useStoreState((state) => state.player);
+
   const selectedQuality = quality ? quality : currentVideo.qualities[0];
 
   const toggleFullScreen = useCallback(
@@ -122,8 +124,8 @@ const Player = (props: any) => {
           paused={isPaused}
           controls={false}
           repeat={false}
-          posterResizeMode="contain"
-          resizeMode="contain"
+          posterResizeMode="cover"
+          resizeMode="cover"
           style={{
             width: isFullScreen ? '100%' : width,
             height: isFullScreen ? width : (width * 9) / 16,

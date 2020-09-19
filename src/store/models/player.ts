@@ -18,8 +18,19 @@ const initialState = {
 export const playerModel = {
   ...initialState,
 
-  resetPlayer: action(() => {
-    return initialState;
+  resetPlayer: action((state: any) => {
+    state.isFinished = false;
+    state.isMuted = false;
+    state.isPaused = false;
+    state.isFullScreen = false;
+    state.isReady = false;
+    state.isBuffering = false;
+    state.progress = 0;
+    state.duration = 0;
+    state.speed = 1;
+    state.quality = null;
+    state.showControls = false;
+    state.showOptions = null;
   }),
 
   setIsBuffering: action((state: any, isBuffering: any) => {
