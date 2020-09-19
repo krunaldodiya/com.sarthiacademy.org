@@ -21,7 +21,7 @@ const Player = (props: any) => {
   const [isSimEmu, setIsSimEmu] = useState(null);
 
   const {
-    loadPlayer,
+    resetPlayer,
     setIsBuffering,
     setShowControls,
     setIsReady,
@@ -65,8 +65,10 @@ const Player = (props: any) => {
   );
 
   useEffect(() => {
-    loadPlayer();
-  }, [loadPlayer]);
+    return () => {
+      resetPlayer();
+    };
+  }, [resetPlayer]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {

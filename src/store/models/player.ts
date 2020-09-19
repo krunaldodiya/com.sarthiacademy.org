@@ -18,8 +18,8 @@ const initialState = {
 export const playerModel = {
   ...initialState,
 
-  loadPlayer: action((state) => {
-    return {...state, ...initialState};
+  resetPlayer: action(() => {
+    return initialState;
   }),
 
   setIsBuffering: action((state: any, isBuffering: any) => {

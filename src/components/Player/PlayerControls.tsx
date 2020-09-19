@@ -124,8 +124,6 @@ const PlayerControls = (props: any) => {
                 minimumTrackTintColor="#fff"
                 maximumTrackTintColor="#bbb"
                 onValueChange={(data) => {
-                  console.log(data, 'data');
-
                   playerRef.current.seek(data);
                 }}
                 thumbTintColor="white"
