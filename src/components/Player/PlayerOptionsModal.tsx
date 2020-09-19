@@ -1,10 +1,13 @@
 import {useStoreState} from 'easy-peasy';
-import React from 'react';
-import {Dimensions, Text, View} from 'react-native';
+import React, {memo} from 'react';
+import {Dimensions, View} from 'react-native';
+import DownloadModal from './DownloadModal';
+import QualityModal from './QualityModal';
+import SpeedModal from './SpeedModal';
 
 const {width, height} = Dimensions.get('window');
 
-const PlayerOptionsModal = () => {
+const PlayerOptionsModal = (props: any) => {
   const {showOptions}: any = useStoreState((state) => state.player);
 
   return (
@@ -28,12 +31,12 @@ const PlayerOptionsModal = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {showOptions === 'download' && <Text>download</Text>}
-        {showOptions === 'quality' && <Text>quality</Text>}
-        {showOptions === 'speed' && <Text>speed</Text>}
+        {showOptions === 'download' && <DownloadModal {...props} />}
+        {showOptions === 'quality' && <QualityModal {...props} />}
+        {showOptions === 'speed' && <SpeedModal {...props} />}
       </View>
     </View>
   );
 };
 
-export default PlayerOptionsModal;
+export default memo(PlayerOptionsModal);

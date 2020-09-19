@@ -175,7 +175,7 @@ const Player = (props: any) => {
         />
       )}
 
-      {showOptions && (
+      {showOptions !== null && (
         <PlayerOptionsModal
           {...props}
           currentVideo={currentVideo}
