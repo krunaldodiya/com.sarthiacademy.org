@@ -31,10 +31,11 @@ const Player = (props: any) => {
   }: any = useStoreActions((actions) => actions.player);
 
   const {
-    quality,
-    isFullScreen,
-    showControls,
     speed,
+    quality,
+    showControls,
+    isFullScreen,
+    isBuffering,
     isMuted,
     isPaused,
   }: any = useStoreState((state) => state.player);
@@ -125,21 +126,25 @@ const Player = (props: any) => {
           }}
           onLoadStart={() => {
             setIsBuffering(true);
-            setShowControls(true);
           }}
           onLoad={(data: any) => {
             setIsReady(true);
             setProgress(data.currentTime);
             setDuration(data.duration);
             setIsBuffering(false);
-            setShowControls(false);
           }}
           onEnd={() => {
             setIsFinished(true);
           }}
+          onSeek={() => {
+            setIsBuffering(true);
+          }}
+          onReadyForDisplay={() => {
+            setIsBuffering(false);
+          }}
         />
 
-        {showControls && (
+        {(isBuffering || showControls) && (
           <PlayerControls
             {...props}
             currentVideo={currentVideo}
