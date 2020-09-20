@@ -17,13 +17,13 @@ const Player = (props: any) => {
 
   const playerRef = useRef(null);
 
-  const [timerId, setTimerId] = useState();
+  const [timerId, setTimerId] = useState<any>();
 
-  const [isSimEmu, setIsSimEmu] = useState(null);
+  const [isSimEmu, setIsSimEmu] = useState<any>(null);
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<any>(0);
 
-  const [link, setLink] = useState('');
+  const [link, setLink] = useState<any>('');
 
   const {
     resetPlayer,
@@ -151,9 +151,7 @@ const Player = (props: any) => {
             setProgress(data.currentTime);
 
             if (isBuffering) {
-              setTimeout(() => {
-                setIsBuffering(false);
-              }, 100);
+              setIsBuffering(false);
             }
           }}
           onLoadStart={() => {
@@ -163,9 +161,7 @@ const Player = (props: any) => {
             setProgress(data.currentTime);
             setDuration(data.duration);
 
-            setTimeout(() => {
-              setIsBuffering(false);
-            }, 100);
+            setIsBuffering(false);
           }}
           onEnd={() => {
             setIsFinished(true);
@@ -174,9 +170,7 @@ const Player = (props: any) => {
             isSliding === false && setIsBuffering(true);
           }}
           onReadyForDisplay={() => {
-            setTimeout(() => {
-              setIsBuffering(false);
-            }, 100);
+            setIsBuffering(false);
           }}
         />
 
