@@ -46,7 +46,6 @@ const DownloadModal = ({selectedQuality, qualities}: any) => {
               <TouchableOpacity
                 style={{paddingHorizontal: 5, paddingTop: 10, paddingBottom: 5}}
                 onPress={() => {
-                  setQuality(quality);
                   setShowOptions(null);
                 }}>
                 <Text
