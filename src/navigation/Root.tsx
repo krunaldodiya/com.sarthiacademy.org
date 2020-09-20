@@ -6,14 +6,14 @@ import {Image, TouchableOpacity} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
 import Icon from 'react-native-dynamic-vector-icons';
 import {useQuery} from 'react-query';
-import VideoPlayer from '../screens/courses/VideoPlayer';
 import {useTheme} from 'styled-components';
 import {authUserApi} from '../api/authUserApi';
-import {startDownload} from '../libs/download';
+import {restartDownload} from '../libs/download';
 import {getMediaFile} from '../libs/media';
 import {screens} from '../libs/screens';
 import Chapters from '../screens/courses/Chapters';
 import StartTest from '../screens/courses/StartTest';
+import VideoPlayer from '../screens/courses/VideoPlayer';
 import Videos from '../screens/courses/Videos';
 import ViewPdf from '../screens/courses/ViewPdf';
 import YTPlayer from '../screens/courses/YTPlayer';
@@ -45,7 +45,7 @@ function RootStackNavigator(props: any) {
   useEffect(() => {
     RNBackgroundDownloader.checkForExistingDownloads().then((tasks: any) => {
       for (let task of tasks) {
-        startDownload(task, task.id, setFiles);
+        restartDownload(task, task.id, setFiles);
       }
     });
   }, [setFiles]);
