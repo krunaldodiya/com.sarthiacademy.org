@@ -203,7 +203,7 @@ const Player = (props: any) => {
           {...props}
           qualities={currentVideo.qualities}
           selectedQuality={selectedQuality}
-          rates={['0.25', '0.50', '1.00', '1.50', '2.00']}
+          rates={['0.25', '0.50', '1.00', '1.25', '1.50', '2.00']}
         />
       )}
     </View>

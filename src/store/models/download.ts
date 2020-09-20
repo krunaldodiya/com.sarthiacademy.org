@@ -8,6 +8,7 @@ export const downloadModel = {
 
     if (isUndefined) {
       state.files[id] = {
+        id,
         progress: 0,
         status: 'downloading',
       };
@@ -20,5 +21,17 @@ export const downloadModel = {
         status: progress === 100 ? 'done' : 'downloading',
       };
     }
+  }),
+
+  pauseDownload: action((state: any, {id, progress}: any) => {
+    //
+  }),
+
+  resumeDownload: action((state: any, {id, progress}: any) => {
+    //
+  }),
+
+  stopDownload: action((state: any, {id, progress}: any) => {
+    //
   }),
 };

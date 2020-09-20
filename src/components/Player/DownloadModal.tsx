@@ -1,13 +1,16 @@
 import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
+import RNBackgroundDownloader from 'react-native-background-downloader';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {startDownload} from 'src/libs/download';
 import {useTheme} from 'styled-components';
+import {downloadPath} from '../../libs/vars';
 
 const DownloadModal = ({selectedQuality, qualities}: any) => {
   const theme = useTheme();
 
-  const {setQuality, setShowOptions}: any = useStoreActions(
+  const {setFiles, setShowOptions}: any = useStoreActions(
     (actions) => actions.player,
   );
 
@@ -45,7 +48,15 @@ const DownloadModal = ({selectedQuality, qualities}: any) => {
             <View key={quality.id}>
               <TouchableOpacity
                 style={{paddingHorizontal: 5, paddingTop: 10, paddingBottom: 5}}
-                onPress={() => {
+                onPress={async () => {
+                  const task = await RNBackgroundDownloader.download({
+                    id: quality.id,
+                    url: quality.link,
+                    destination: `${downloadPath}/${quality.id}.mp4`,
+                  });
+
+                  await startDownload(task, quality.id, setFiles);
+
                   setShowOptions(null);
                 }}>
                 <Text

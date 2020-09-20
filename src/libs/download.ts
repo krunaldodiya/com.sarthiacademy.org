@@ -1,5 +1,8 @@
 export const startDownload = (task: any, id: string, setFiles: Function) => {
   return task
+    .begin((expectedBytes: number) => {
+      console.log(`Going to download ${expectedBytes} bytes!`);
+    })
     .progress((percent: number) => {
       setFiles({
         id,
@@ -9,7 +12,18 @@ export const startDownload = (task: any, id: string, setFiles: Function) => {
     .done(() => {
       setFiles({id, progress: 100});
     })
-    .error((error) => {
+    .error((error: any) => {
       console.log('Download canceled due to error: ', error);
     });
 };
+
+// check Root.tsx for resuming downloads on startup
+
+// // Pause the task
+// task.pause();
+
+// // Resume after pause
+// task.resume();
+
+// // Cancel the task
+// task.stop();
