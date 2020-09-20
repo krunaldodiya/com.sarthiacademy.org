@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 const PlayerOptions = ({qualities, speeds}: any) => {
   const {speed, quality, showModal} = useStoreState((state) => state.player);
 
-  const {setSpeed, setIsReady, setQuality, setShowModal} = useStoreActions(
+  const {setSpeed, setQuality, setShowModal} = useStoreActions(
     (actions) => actions.player,
   );
 
@@ -58,7 +58,6 @@ const PlayerOptions = ({qualities, speeds}: any) => {
                       key={qualityData.id}
                       onPress={() => {
                         if (qualities.length > 1) {
-                          setIsReady(false);
                           setQuality(qualityData);
                         }
                         setShowModal(false);

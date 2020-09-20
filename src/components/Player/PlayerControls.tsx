@@ -15,6 +15,7 @@ const PlayerControls = (props: any) => {
     previousVideo,
     chapter,
     toggleFullScreen,
+    progress,
   } = props;
 
   const secondsToHms = (d) => {
@@ -22,7 +23,6 @@ const PlayerControls = (props: any) => {
   };
 
   const {
-    progress,
     duration,
     isPaused,
     isFinished,

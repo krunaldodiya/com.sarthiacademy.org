@@ -53,6 +53,7 @@
     "react-native-slider": "^0.11.0",
     "react-native-vector-icons": "^7.0.0",
     "react-native-video": "^4.4.5",
+    "react-native-video-cache": "^1.0.0",
     "react-native-youtube": "^2.0.1",
     "react-query": "^2.4.16",
     "recoil": "^0.0.10",

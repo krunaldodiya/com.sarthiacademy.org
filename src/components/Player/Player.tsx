@@ -4,7 +4,8 @@ import {BackHandler, Dimensions, NativeModules, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import Video from 'react-native-video';
-import {checkSimulater} from '../../libs/check';
+import convertToProxyURL from 'react-native-video-cache';
+import {checkSimulator} from '../../libs/check';
 import PlayerControls from './PlayerControls';
 import PlayerOptions from './PlayerOptions';
 import PlayerOptionsModal from './PlayerOptionsModal';
@@ -20,12 +21,14 @@ const Player = (props: any) => {
 
   const [isSimEmu, setIsSimEmu] = useState(null);
 
+  const [progress, setProgress] = useState(0);
+
+  const [link, setLink] = useState('');
+
   const {
     resetPlayer,
     setIsBuffering,
     setShowControls,
-    setIsReady,
-    setProgress,
     setDuration,
     setIsFinished,
     setIsFullScreen,
@@ -41,8 +44,6 @@ const Player = (props: any) => {
     isMuted,
     isPaused,
   }: any = useStoreState((state) => state.player);
-
-  const playerState: any = useStoreState((state) => state.player);
 
   const selectedQuality = quality ? quality : currentVideo.qualities[0];
 
@@ -79,10 +80,20 @@ const Player = (props: any) => {
   }, [toggleFullScreen]);
 
   useEffect(() => {
-    checkSimulater(NativeModules, (status: any) => {
+    checkSimulator(NativeModules, (status: any) => {
       setIsSimEmu(status);
     });
   }, []);
+
+  useEffect(() => {
+    const getCachedVideoLink = async () => {
+      const localProxiedURL = await convertToProxyURL(selectedQuality.link);
+
+      setLink(localProxiedURL);
+    };
+
+    getCachedVideoLink();
+  }, [selectedQuality]);
 
   const manageOverlay = () => {
     if (showControls) {
@@ -114,6 +125,10 @@ const Player = (props: any) => {
     );
   }
 
+  if (!link.length) {
+    return null;
+  }
+
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
@@ -130,7 +145,7 @@ const Player = (props: any) => {
             width: isFullScreen ? '100%' : width,
             height: isFullScreen ? width : (width * 9) / 16,
           }}
-          source={{uri: selectedQuality.link}}
+          source={{uri: link}}
           onProgress={(data: any) => {
             setProgress(data.currentTime);
           }}
@@ -138,7 +153,6 @@ const Player = (props: any) => {
             setIsBuffering(true);
           }}
           onLoad={(data: any) => {
-            setIsReady(true);
             setProgress(data.currentTime);
             setDuration(data.duration);
             setIsBuffering(false);
@@ -163,6 +177,7 @@ const Player = (props: any) => {
             chapter={chapter}
             playerRef={playerRef}
             toggleFullScreen={toggleFullScreen}
+            progress={progress}
           />
         )}
       </TouchableOpacity>

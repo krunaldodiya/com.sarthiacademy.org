@@ -1,4 +1,4 @@
-export const checkSimulater = async (NativeModules: any, callback: any) => {
+export const checkSimulator = async (NativeModules: any, callback: any) => {
   var utils = await NativeModules.Utils;
 
   await utils.isSimEmu(

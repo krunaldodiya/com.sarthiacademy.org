@@ -7,7 +7,6 @@ const initialState = {
   isFullScreen: false,
   isReady: false,
   isBuffering: false,
-  progress: 0,
   duration: 0,
   speed: 1,
   quality: null,
@@ -25,7 +24,6 @@ export const playerModel = {
     state.isFullScreen = false;
     state.isReady = false;
     state.isBuffering = false;
-    state.progress = 0;
     state.duration = 0;
     state.speed = 1;
     state.quality = null;
@@ -35,10 +33,6 @@ export const playerModel = {
 
   setIsBuffering: action((state: any, isBuffering: any) => {
     state.isBuffering = isBuffering;
-  }),
-
-  setIsReady: action((state: any, isReady: any) => {
-    state.isReady = isReady;
   }),
 
   setIsFullScreen: action((state: any, fullScreen: any) => {
@@ -59,10 +53,6 @@ export const playerModel = {
 
   setIsFinished: action((state: any) => {
     state.isFinished = true;
-  }),
-
-  setProgress: action((state: any, progress: any) => {
-    state.progress = progress;
   }),
 
   setDuration: action((state: any, duration: any) => {
