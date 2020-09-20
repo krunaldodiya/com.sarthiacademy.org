@@ -28,9 +28,10 @@ const PlayerControls = (props: any) => {
     isFinished,
     isFullScreen,
     isBuffering,
+    isSliding,
   } = useStoreState((state) => state.player);
 
-  const {setIsPaused, setShowOptions} = useStoreActions(
+  const {setIsPaused, setShowOptions, setIsSliding} = useStoreActions(
     (actions) => actions.player,
   );
 
@@ -127,6 +128,8 @@ const PlayerControls = (props: any) => {
                   playerRef.current.seek(data);
                 }}
                 thumbTintColor="white"
+                onSlidingStart={() => setIsSliding(true)}
+                onSlidingComplete={() => setIsSliding(false)}
               />
             </View>
 

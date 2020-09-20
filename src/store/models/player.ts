@@ -1,6 +1,7 @@
 import {action} from 'easy-peasy';
 
 const initialState = {
+  isSliding: false,
   isFinished: false,
   isMuted: false,
   isPaused: false,
@@ -18,6 +19,7 @@ export const playerModel = {
   ...initialState,
 
   resetPlayer: action((state: any) => {
+    state.isSliding = false;
     state.isFinished = false;
     state.isMuted = false;
     state.isPaused = false;
@@ -29,6 +31,10 @@ export const playerModel = {
     state.quality = null;
     state.showControls = false;
     state.showOptions = null;
+  }),
+
+  setIsSliding: action((state: any, isSliding: any) => {
+    state.isSliding = isSliding;
   }),
 
   setIsBuffering: action((state: any, isBuffering: any) => {

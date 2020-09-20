@@ -1,15 +1,27 @@
+import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
-import {View, Text} from 'react-native';
+import {Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const QualityModal = (props: any) => {
   const {currentVideo} = props;
+
+  const {setQuality, setShowOptions}: any = useStoreActions(
+    (actions) => actions.player,
+  );
 
   return (
     <View>
       {currentVideo.qualities.map((quality: any) => {
         return (
           <View key={quality.id}>
-            <Text>{quality.quality}</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setQuality(quality);
+                setShowOptions(null);
+              }}>
+              <Text>{quality.quality}</Text>
+            </TouchableOpacity>
           </View>
         );
       })}

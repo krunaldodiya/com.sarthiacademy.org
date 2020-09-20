@@ -43,6 +43,7 @@ const Player = (props: any) => {
     isBuffering,
     isMuted,
     isPaused,
+    isSliding,
   }: any = useStoreState((state) => state.player);
 
   const selectedQuality = quality ? quality : currentVideo.qualities[0];
@@ -148,20 +149,25 @@ const Player = (props: any) => {
           source={{uri: link}}
           onProgress={(data: any) => {
             setProgress(data.currentTime);
+
+            if (isBuffering) {
+              setIsBuffering(false);
+            }
           }}
           onLoadStart={() => {
-            setIsBuffering(true);
+            isSliding === false && setIsBuffering(true);
           }}
           onLoad={(data: any) => {
             setProgress(data.currentTime);
             setDuration(data.duration);
+
             setIsBuffering(false);
           }}
           onEnd={() => {
             setIsFinished(true);
           }}
           onSeek={() => {
-            setIsBuffering(true);
+            isSliding === false && setIsBuffering(true);
           }}
           onReadyForDisplay={() => {
             setIsBuffering(false);
