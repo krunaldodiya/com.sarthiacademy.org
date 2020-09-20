@@ -151,7 +151,9 @@ const Player = (props: any) => {
             setProgress(data.currentTime);
 
             if (isBuffering) {
-              setIsBuffering(false);
+              setTimeout(() => {
+                setIsBuffering(false);
+              }, 100);
             }
           }}
           onLoadStart={() => {
@@ -161,7 +163,9 @@ const Player = (props: any) => {
             setProgress(data.currentTime);
             setDuration(data.duration);
 
-            setIsBuffering(false);
+            setTimeout(() => {
+              setIsBuffering(false);
+            }, 100);
           }}
           onEnd={() => {
             setIsFinished(true);
@@ -170,7 +174,9 @@ const Player = (props: any) => {
             isSliding === false && setIsBuffering(true);
           }}
           onReadyForDisplay={() => {
-            setIsBuffering(false);
+            setTimeout(() => {
+              setIsBuffering(false);
+            }, 100);
           }}
         />
 
