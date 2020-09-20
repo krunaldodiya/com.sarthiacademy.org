@@ -1,5 +1,5 @@
 export const restartDownload = (task: any, id: string, setFiles: Function) => {
-  startDownload(task, id, setFiles);
+  return startDownload(task, id, setFiles);
 };
 
 export const startDownload = (task: any, id: string, setFiles: Function) => {
