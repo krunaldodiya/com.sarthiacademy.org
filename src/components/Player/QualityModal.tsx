@@ -2,9 +2,10 @@ import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useTheme} from 'styled-components';
 
-const QualityModal = (props: any) => {
-  const {currentVideo} = props;
+const QualityModal = ({selectedQuality, qualities}: any) => {
+  const theme = useTheme();
 
   const {setQuality, setShowOptions}: any = useStoreActions(
     (actions) => actions.player,
@@ -12,19 +13,58 @@ const QualityModal = (props: any) => {
 
   return (
     <View>
-      {currentVideo.qualities.map((quality: any) => {
-        return (
-          <View key={quality.id}>
-            <TouchableOpacity
-              onPress={() => {
-                setQuality(quality);
-                setShowOptions(null);
+      <View style={{padding: 10, backgroundColor: '#ddd'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Text
+            style={{
+              color: '#000',
+              fontFamily: theme.fontFamily.QuicksandSemiBold,
+              fontSize: 17,
+              textTransform: 'uppercase',
+            }}>
+            Select quality
+          </Text>
+
+          <TouchableOpacity onPress={() => setShowOptions(null)}>
+            <Text
+              style={{
+                color: '#f00',
+                fontFamily: theme.fontFamily.QuicksandSemiBold,
+                fontSize: 17,
+                textTransform: 'uppercase',
               }}>
-              <Text>{quality.quality}</Text>
-            </TouchableOpacity>
-          </View>
-        );
-      })}
+              cancel
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View style={{padding: 5}}>
+        {qualities.map((quality: any) => {
+          return (
+            <View key={quality.id}>
+              <TouchableOpacity
+                style={{paddingHorizontal: 5, paddingTop: 10, paddingBottom: 5}}
+                onPress={() => {
+                  setQuality(quality);
+                  setShowOptions(null);
+                }}>
+                <Text
+                  style={{
+                    color: selectedQuality.id === quality.id ? '#f00' : '#000',
+                    fontFamily:
+                      selectedQuality.id === quality.id
+                        ? theme.fontFamily.QuicksandBold
+                        : theme.fontFamily.QuicksandRegular,
+                    fontSize: 18,
+                  }}>
+                  {quality.quality}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };

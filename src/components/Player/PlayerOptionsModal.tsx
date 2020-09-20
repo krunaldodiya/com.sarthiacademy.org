@@ -29,8 +29,6 @@ const PlayerOptionsModal = (props: any) => {
           elevation: 10,
           width: width - 40,
           height: width - 40,
-          justifyContent: 'center',
-          alignItems: 'center',
         }}>
         {showOptions === 'download' && <DownloadModal {...props} />}
         {showOptions === 'quality' && <QualityModal {...props} />}

@@ -9,7 +9,7 @@ const initialState = {
   isReady: false,
   isBuffering: false,
   duration: 0,
-  speed: 1,
+  speed: '1.00',
   quality: null,
   showControls: false,
   showOptions: null,
@@ -27,7 +27,7 @@ export const playerModel = {
     state.isReady = false;
     state.isBuffering = false;
     state.duration = 0;
-    state.speed = 1;
+    state.speed = '1.00';
     state.quality = null;
     state.showControls = false;
     state.showOptions = null;

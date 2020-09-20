@@ -135,7 +135,7 @@ const Player = (props: any) => {
       <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
         <Video
           ref={playerRef}
-          rate={speed}
+          rate={parseFloat(speed)}
           muted={isMuted}
           paused={isPaused}
           controls={false}
@@ -207,10 +207,9 @@ const Player = (props: any) => {
       {showOptions !== null && (
         <PlayerOptionsModal
           {...props}
-          currentVideo={currentVideo}
-          nextVideo={nextVideo}
-          previousVideo={previousVideo}
-          chapter={chapter}
+          qualities={currentVideo.qualities}
+          selectedQuality={selectedQuality}
+          rates={['0.25', '0.50', '1.00', '1.50', '2.00']}
         />
       )}
     </View>
