@@ -25,7 +25,7 @@ import Notifications from '../screens/Notifications';
 import RequestOtp from '../screens/RequestOtp';
 import SubscribeCourse from '../screens/SubscribeCourse';
 import VerifyOtp from '../screens/VerifyOtp';
-import CourseTabNavigator from './CourseTabNavigator';
+import CourseTabs from './CourseTabs';
 import HomeTabNavigator from './HomeTabNavigator';
 import ViewTestNavigator from './ViewTestNavigator';
 
@@ -106,11 +106,17 @@ function RootStackNavigator(props: any) {
         />
 
         <RootStack.Screen
-          name={screens.CourseTabNavigator.name}
-          component={CourseTabNavigator}
+          name={screens.CourseTabs.name}
+          component={CourseTabs}
           options={(props: any) => {
             const index = props.route.state ? props.route.state.index : 0;
-            const names = ['Live', 'Subjects', 'Tests', 'Attachments'];
+            const names = [
+              'Subjects',
+              'Downloads',
+              'Tests',
+              'Attachments',
+              'Live',
+            ];
 
             return {
               headerTintColor: theme.color.primary,

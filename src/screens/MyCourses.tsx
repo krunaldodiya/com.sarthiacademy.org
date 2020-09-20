@@ -61,7 +61,7 @@ function MyCourses({navigation}: any) {
                   }}
                   onPress={() => {
                     setSelectedCourseId(item.plan.course.id);
-                    navigation.push(screens.CourseTabNavigator.name);
+                    navigation.push(screens.CourseTabs.name);
                   }}>
                   <View>
                     <Image

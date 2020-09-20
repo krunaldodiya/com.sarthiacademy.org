@@ -25,9 +25,7 @@ function ViewTestNavigator({route}: any) {
         component={TestResults}
         options={{
           tabBarIcon: ({color}: any) => {
-            return (
-              <Icon name="react" type="Fontisto" color={color} size={22} />
-            );
+            return <Icon name="award" type="Feather" color={color} size={22} />;
           },
         }}
       />
@@ -37,7 +35,7 @@ function ViewTestNavigator({route}: any) {
         component={TestRankings}
         options={{
           tabBarIcon: ({color}: any) => (
-            <Icon name="wallet" type="Fontisto" color={color} size={22} />
+            <Icon name="open-book" type="Entypo" color={color} size={22} />
           ),
         }}
       />

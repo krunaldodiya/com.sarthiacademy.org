@@ -4,8 +4,8 @@ export const screens: {[key: string]: {name: string; type: string}} = {
     type: 'Auth',
   },
 
-  CourseTabNavigator: {
-    name: 'CourseTabNavigator',
+  CourseTabs: {
+    name: 'CourseTabs',
     type: 'Auth',
   },
 
@@ -116,6 +116,11 @@ export const screens: {[key: string]: {name: string; type: string}} = {
 
   Attachments: {
     name: 'Attachments',
+    type: 'Auth',
+  },
+
+  Downloads: {
+    name: 'Downloads',
     type: 'Auth',
   },
 

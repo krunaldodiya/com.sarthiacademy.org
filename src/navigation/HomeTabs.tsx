@@ -2,6 +2,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Icon from 'react-native-dynamic-vector-icons';
 import {useTheme} from 'styled-components';
+import {screens} from '../libs/screens';
 import AllCourses from '../screens/AllCourses';
 import MyCourses from '../screens/MyCourses';
 
@@ -20,18 +21,23 @@ function HomeTabs({navigation}: any) {
         style: {height: 60, justifyContent: 'center'},
       }}>
       <Tab.Screen
-        name="All Courses"
+        name={screens.AllCourses.name}
         component={AllCourses}
         options={{
           tabBarIcon: ({color}: any) => {
             return (
-              <Icon name="react" type="Fontisto" color={color} size={22} />
+              <Icon
+                name="shopping-cart"
+                type="Entypo"
+                color={color}
+                size={22}
+              />
             );
           },
         }}
       />
       <Tab.Screen
-        name="My Courses"
+        name={screens.MyCourses.name}
         component={MyCourses}
         options={{
           tabBarIcon: ({color}: any) => (

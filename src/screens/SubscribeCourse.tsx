@@ -29,7 +29,7 @@ export default function SubscribeCourse({route, navigation}: any) {
     onSuccess: (data) => {
       queryCache.setQueryData('auth_user', data.user);
       setSubscribing(false);
-      navigation.replace(screens.CourseTabNavigator.name, {course});
+      navigation.replace(screens.CourseTabs.name, {course});
     },
     onError: (error) => {
       Alert.alert('Oops', error.response.data.message);
