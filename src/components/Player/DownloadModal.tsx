@@ -54,12 +54,7 @@ const DownloadModal = ({qualities}: any) => {
                     destination: `${downloadPath}/${quality.id}.mp4`,
                   });
 
-                  await startDownload(
-                    task,
-                    quality.id,
-                    downloadActions,
-                    quality,
-                  );
+                  await startDownload(task, quality.id, downloadActions);
 
                   setShowOptions(null);
 
