@@ -2,9 +2,9 @@ import {useStoreActions, useStoreState} from 'easy-peasy';
 import React from 'react';
 import {
   Alert,
+  FlatList,
   SafeAreaView,
   StatusBar,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -36,104 +36,113 @@ export default function Downloads({route, navigation}: any) {
           backgroundColor: theme.backgroundColor.primary,
         }}>
         <View style={{flex: 1}}>
-          {Object.values(files).map((file: any) => {
-            return (
-              <TouchableOpacity
-                key={file.task.id}
-                onPress={() => {
-                  if (file.task.state === 'DOWNLOADING') {
-                    return Alert.alert('Oops...', 'Video is still downloading');
-                  }
+          <FlatList
+            keyExtractor={(_, index) => index.toString()}
+            data={Object.values(files)}
+            renderItem={({item}: any) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    if (item.task.state === 'DOWNLOADING') {
+                      return Alert.alert(
+                        'Oops...',
+                        'Video is still downloading',
+                      );
+                    }
 
-                  navigation.push(screens.VideoPlayer.name, {
-                    quality: file.quality,
-                    video: file.video,
-                    chapter: file.chapter,
-                  });
-                }}>
-                <View style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
-                  <View style={{marginBottom: 10}}>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        fontFamily: theme.fontFamily.QuicksandBold,
-                        fontSize: 18,
-                      }}>
-                      {file.video.title}
-                    </Text>
-                  </View>
-
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{flex: 1, justifyContent: 'center'}}>
-                      <View style={{marginVertical: 2}}>
-                        <Text
-                          style={{
-                            fontFamily: theme.fontFamily.QuicksandSemiBold,
-                            fontSize: 14,
-                          }}>
-                          Quality: {file.quality.quality}
-                        </Text>
-                      </View>
-
-                      <View style={{marginVertical: 2}}>
-                        <Text
-                          style={{
-                            fontFamily: theme.fontFamily.QuicksandSemiBold,
-                            fontSize: 14,
-                          }}>
-                          Progress: {file.task.percent.toFixed(2) * 100}%
-                        </Text>
-                      </View>
-
-                      <View style={{marginVertical: 2}}>
-                        <Text
-                          style={{
-                            fontFamily: theme.fontFamily.QuicksandSemiBold,
-                            fontSize: 14,
-                          }}>
-                          Status: {file.task.state}
-                        </Text>
-                      </View>
+                    navigation.push(screens.VideoPlayer.name, {
+                      quality: item.quality,
+                      video: item.video,
+                      chapter: item.chapter,
+                    });
+                  }}>
+                  <View
+                    style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
+                    <View style={{marginBottom: 10}}>
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          fontFamily: theme.fontFamily.QuicksandBold,
+                          fontSize: 18,
+                        }}>
+                        {item.video.title}
+                      </Text>
                     </View>
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                      }}>
-                      <View style={{margin: 5}}>
-                        <Icon
-                          type="AntDesign"
-                          name={
-                            file.task.state === 'PAUSED'
-                              ? 'playcircleo'
-                              : 'pausecircleo'
-                          }
-                          color="#000"
-                          size={26}
-                          onPress={() => {
-                            file.task.state === 'PAUSED'
-                              ? resumeDownloadAction({task: file.task})
-                              : pauseDownloadAction({task: file.task});
-                          }}
-                        />
+                    <View style={{flexDirection: 'row'}}>
+                      <View style={{flex: 1, justifyContent: 'center'}}>
+                        <View style={{marginVertical: 2}}>
+                          <Text
+                            style={{
+                              fontFamily: theme.fontFamily.QuicksandSemiBold,
+                              fontSize: 14,
+                            }}>
+                            Quality: {item.quality.quality}
+                          </Text>
+                        </View>
+
+                        <View style={{marginVertical: 2}}>
+                          <Text
+                            style={{
+                              fontFamily: theme.fontFamily.QuicksandSemiBold,
+                              fontSize: 14,
+                            }}>
+                            Progress: {item.task.percent.toFixed(2) * 100}%
+                          </Text>
+                        </View>
+
+                        <View style={{marginVertical: 2}}>
+                          <Text
+                            style={{
+                              fontFamily: theme.fontFamily.QuicksandSemiBold,
+                              fontSize: 14,
+                            }}>
+                            Status: {item.task.state}
+                          </Text>
+                        </View>
                       </View>
 
-                      <View style={{margin: 5}}>
-                        <Icon
-                          type="AntDesign"
-                          name="delete"
-                          color="#f00"
-                          size={26}
-                          onPress={() => stopDownloadAction({task: file.task})}
-                        />
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                        }}>
+                        <View style={{margin: 5}}>
+                          <Icon
+                            type="AntDesign"
+                            name={
+                              item.task.state === 'PAUSED'
+                                ? 'playcircleo'
+                                : 'pausecircleo'
+                            }
+                            color="#000"
+                            size={26}
+                            onPress={() => {
+                              item.task.state === 'PAUSED'
+                                ? resumeDownloadAction({task: item.task})
+                                : pauseDownloadAction({task: item.task});
+                            }}
+                          />
+                        </View>
+
+                        <View style={{margin: 5}}>
+                          <Icon
+                            type="AntDesign"
+                            name="delete"
+                            color="#f00"
+                            size={26}
+                            onPress={() =>
+                              stopDownloadAction({task: item.task})
+                            }
+                          />
+                        </View>
                       </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
+                </TouchableOpacity>
+              );
+            }}
+          />
         </View>
       </SafeAreaView>
     </>
