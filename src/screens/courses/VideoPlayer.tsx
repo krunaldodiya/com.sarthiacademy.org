@@ -10,7 +10,7 @@ const VideoPlayer = (props: any) => {
   const theme = useTheme();
 
   const {route} = props;
-  const {video, chapter} = route.params;
+  const {quality, video, chapter} = route.params;
 
   const {currentVideo, nextVideo, previousVideo} = getVideos(
     video,
@@ -40,6 +40,7 @@ const VideoPlayer = (props: any) => {
             currentVideo={currentVideo}
             nextVideo={nextVideo}
             previousVideo={previousVideo}
+            videoQuality={quality}
           />
         </View>
       </SafeAreaView>

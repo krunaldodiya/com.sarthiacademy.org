@@ -1,7 +1,14 @@
 import {useStoreState} from 'easy-peasy';
 import React from 'react';
-import {SafeAreaView, StatusBar, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useTheme} from 'styled-components';
+import {screens} from '../../libs/screens';
 
 export default function Downloads({route, navigation}: any) {
   const theme: any = useTheme();
@@ -23,33 +30,42 @@ export default function Downloads({route, navigation}: any) {
         <View style={{flex: 1}}>
           {Object.values(files).map((quality: any) => {
             return (
-              <View
-                key={quality.id}
-                style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
-                <Text
-                  style={{
-                    fontFamily: theme.fontFamily.QuicksandBold,
-                    fontSize: 14,
-                  }}>
-                  {quality.id}
-                </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.push(screens.VideoPlayer.name, {
+                    quality,
+                    video: null,
+                    chapter: null,
+                  });
+                }}>
+                <View
+                  key={quality.id}
+                  style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
+                  <Text
+                    style={{
+                      fontFamily: theme.fontFamily.QuicksandBold,
+                      fontSize: 14,
+                    }}>
+                    {quality.id}
+                  </Text>
 
-                <Text
-                  style={{
-                    fontFamily: theme.fontFamily.QuicksandBold,
-                    fontSize: 14,
-                  }}>
-                  Progress: {quality.progress}%
-                </Text>
+                  <Text
+                    style={{
+                      fontFamily: theme.fontFamily.QuicksandBold,
+                      fontSize: 14,
+                    }}>
+                    Progress: {quality.progress}%
+                  </Text>
 
-                <Text
-                  style={{
-                    fontFamily: theme.fontFamily.QuicksandBold,
-                    fontSize: 14,
-                  }}>
-                  Status: {quality.status}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      fontFamily: theme.fontFamily.QuicksandBold,
+                      fontSize: 14,
+                    }}>
+                    Status: {quality.status}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             );
           })}
         </View>

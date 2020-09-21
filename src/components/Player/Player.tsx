@@ -13,7 +13,14 @@ import PlayerOptionsModal from './PlayerOptionsModal';
 const {width, height} = Dimensions.get('window');
 
 const Player = (props: any) => {
-  const {navigation, currentVideo, nextVideo, previousVideo, chapter} = props;
+  const {
+    navigation,
+    videoQuality,
+    currentVideo,
+    nextVideo,
+    previousVideo,
+    chapter,
+  } = props;
 
   const playerRef = useRef(null);
 
@@ -46,7 +53,7 @@ const Player = (props: any) => {
     isSliding,
   }: any = useStoreState((state) => state.player);
 
-  const selectedQuality = quality ? quality : currentVideo.qualities[0];
+  const selectedQuality = quality ? quality : videoQuality;
 
   const toggleFullScreen = useCallback(
     (backButtonPressed: boolean) => {
