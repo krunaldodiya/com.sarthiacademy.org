@@ -15,13 +15,19 @@ export const downloadModel = {
 
   pauseDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
+
+    task.pause();
   }),
 
   resumeDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
+
+    task.resume();
   }),
 
   stopDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
+
+    task.stop();
   }),
 };

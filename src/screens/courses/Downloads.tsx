@@ -1,4 +1,4 @@
-import {useStoreState} from 'easy-peasy';
+import {useStoreActions, useStoreState} from 'easy-peasy';
 import React from 'react';
 import {
   Alert,
@@ -16,6 +16,11 @@ export default function Downloads({route, navigation}: any) {
   const theme: any = useTheme();
 
   const {files}: any = useStoreState((state) => state.download);
+  const {
+    pauseDownloadAction,
+    resumeDownloadAction,
+    stopDownloadAction,
+  }: any = useStoreActions((actions) => actions.download);
 
   return (
     <>
@@ -97,8 +102,8 @@ export default function Downloads({route, navigation}: any) {
                           size={26}
                           onPress={() => {
                             file.task.state === 'DOWNLOADING'
-                              ? file.task.pause()
-                              : file.task.resume();
+                              ? pauseDownloadAction(file.task)
+                              : resumeDownloadAction(file.task);
                           }}
                         />
                       </View>
@@ -109,7 +114,7 @@ export default function Downloads({route, navigation}: any) {
                           name="delete"
                           color="#f00"
                           size={26}
-                          onPress={() => file.task.stop()}
+                          onPress={() => stopDownloadAction(file.task)}
                         />
                       </View>
                     </View>
