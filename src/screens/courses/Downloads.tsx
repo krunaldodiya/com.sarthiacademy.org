@@ -17,8 +17,6 @@ export default function Downloads({route, navigation}: any) {
 
   const {files}: any = useStoreState((state) => state.download);
 
-  console.log(files);
-
   const {
     pauseDownloadAction,
     resumeDownloadAction,
@@ -83,7 +81,7 @@ export default function Downloads({route, navigation}: any) {
                             fontFamily: theme.fontFamily.QuicksandSemiBold,
                             fontSize: 14,
                           }}>
-                          Progress: {file.task.percent * 100}%
+                          Progress: {file.task.percent.toFixed(2) * 100}%
                         </Text>
                       </View>
 

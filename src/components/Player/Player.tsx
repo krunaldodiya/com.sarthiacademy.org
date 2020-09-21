@@ -6,6 +6,7 @@ import Orientation from 'react-native-orientation-locker';
 import Video from 'react-native-video';
 import convertToProxyURL from 'react-native-video-cache';
 import {checkSimulator} from '../../libs/check';
+import {downloadPath} from '../../libs/vars';
 import PlayerControls from './PlayerControls';
 import PlayerOptions from './PlayerOptions';
 import PlayerOptionsModal from './PlayerOptionsModal';
@@ -53,6 +54,8 @@ const Player = (props: any) => {
     isSliding,
   }: any = useStoreState((state) => state.player);
 
+  const {files}: any = useStoreState((state) => state.download);
+
   const selectedQuality = quality ? quality : videoQuality;
 
   const toggleFullScreen = useCallback(
@@ -95,13 +98,19 @@ const Player = (props: any) => {
 
   useEffect(() => {
     const getCachedVideoLink = async () => {
-      const localProxiedURL = await convertToProxyURL(selectedQuality.link);
+      const localProxyURL = await convertToProxyURL(selectedQuality.link);
 
-      setLink(localProxiedURL);
+      const destination =
+        files[selectedQuality.id] &&
+        files[selectedQuality.id].task.state === 'done'
+          ? `${downloadPath}/${selectedQuality.id}.mp4`
+          : localProxyURL;
+
+      setLink(destination);
     };
 
     getCachedVideoLink();
-  }, [selectedQuality]);
+  }, [selectedQuality, files]);
 
   const manageOverlay = () => {
     if (showControls) {
