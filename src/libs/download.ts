@@ -1,20 +1,44 @@
-export const restartDownload = (task: any, id: string, setFiles: Function) => {
-  return startDownload(task, id, setFiles);
+export const startDownload = (
+  task: any,
+  taskId: any,
+  downloadActions: any,
+  quality: any,
+) => {
+  const {startDownloadAction} = downloadActions;
+
+  task.begin(() => {
+    startDownloadAction({
+      id: taskId,
+      progress: 0,
+      status: 'downloading',
+      quality,
+    });
+  });
+
+  return updateDownload(task, taskId, downloadActions);
 };
 
-export const startDownload = (task: any, id: string, setFiles: Function) => {
+export const updateDownload = (
+  task: any,
+  taskId: any,
+  downloadActions: any,
+) => {
+  const {updateDownloadAction} = downloadActions;
+
   return task
-    .begin((expectedBytes: number) => {
-      console.log(`Going to download ${expectedBytes} bytes!`);
-    })
     .progress((percent: number) => {
-      setFiles({
-        id,
+      updateDownloadAction({
+        id: taskId,
         progress: percent * 100,
+        status: percent === 1 ? 'done' : 'downloading',
       });
     })
     .done(() => {
-      setFiles({id, progress: 100});
+      updateDownloadAction({
+        id: taskId,
+        progress: 100,
+        status: 'done',
+      });
     })
     .error((error: any) => {
       console.log('Download canceled due to error: ', error);

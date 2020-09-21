@@ -3,35 +3,25 @@ import {action} from 'easy-peasy';
 export const downloadModel = {
   files: {},
 
-  setFiles: action((state: any, {id, progress}: any) => {
-    const isUndefined = state.files[id] === undefined;
-
-    if (isUndefined) {
-      state.files[id] = {
-        id,
-        progress: 0,
-        status: 'downloading',
-      };
-    }
-
-    if (!isUndefined) {
-      state.files[id] = {
-        ...state.files[id],
-        progress,
-        status: progress === 100 ? 'done' : 'downloading',
-      };
-    }
+  startDownloadAction: action((state: any, payload: any) => {
+    const {id} = payload;
+    state.files[id] = payload;
   }),
 
-  pauseDownload: action((state: any, {id, progress}: any) => {
+  updateDownloadAction: action((state: any, payload: any) => {
+    const {id} = payload;
+    state.files[id] = {...state.files[id], ...payload};
+  }),
+
+  pauseDownloadAction: action((state: any, {id, progress}: any) => {
     //
   }),
 
-  resumeDownload: action((state: any, {id, progress}: any) => {
+  resumeDownloadAction: action((state: any, {id, progress}: any) => {
     //
   }),
 
-  stopDownload: action((state: any, {id, progress}: any) => {
+  stopDownloadAction: action((state: any, {id, progress}: any) => {
     //
   }),
 };

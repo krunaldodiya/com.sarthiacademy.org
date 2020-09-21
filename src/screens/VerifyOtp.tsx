@@ -33,7 +33,7 @@ function VerifyOtp({navigation, route}: any) {
   const [setDeviceToken] = useMutation(setDeviceTokenApi);
 
   const {setInitialScreen} = useStoreActions((actions) => actions.home);
-  const {unique_id} = useStoreState((actions) => actions.home);
+  const {unique_id} = useStoreState((state) => state.home);
 
   const onSubmit = async (credentials) => {
     const {otp} = credentials;

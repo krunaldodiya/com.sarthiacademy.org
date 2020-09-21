@@ -8,7 +8,7 @@ import Icon from 'react-native-dynamic-vector-icons';
 import {useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
 import {authUserApi} from '../api/authUserApi';
-import {restartDownload} from '../libs/download';
+import {updateDownload} from '../libs/download';
 import {getMediaFile} from '../libs/media';
 import {screens} from '../libs/screens';
 import Chapters from '../screens/courses/Chapters';
@@ -40,15 +40,15 @@ function RootStackNavigator(props: any) {
 
   const {initialScreen} = useStoreState((state) => state.home);
 
-  const {setFiles}: any = useStoreActions((actions) => actions.download);
+  const downloadActions: any = useStoreActions((actions) => actions.download);
 
   useEffect(() => {
     RNBackgroundDownloader.checkForExistingDownloads().then((tasks: any) => {
       for (let task of tasks) {
-        restartDownload(task, task.id, setFiles);
+        updateDownload(task, task.id, downloadActions);
       }
     });
-  }, [setFiles]);
+  }, [downloadActions]);
 
   return (
     <NavigationContainer>

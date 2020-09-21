@@ -1,18 +1,17 @@
-import {useStoreActions} from 'easy-peasy';
+import {useStoreActions, useStoreState} from 'easy-peasy';
 import React, {memo} from 'react';
-import {Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {startDownload} from 'src/libs/download';
 import {useTheme} from 'styled-components';
+import {startDownload} from '../../libs/download';
 import {downloadPath} from '../../libs/vars';
 
-const DownloadModal = ({selectedQuality, qualities}: any) => {
+const DownloadModal = ({qualities}: any) => {
   const theme = useTheme();
 
-  const {setFiles, setShowOptions}: any = useStoreActions(
-    (actions) => actions.player,
-  );
+  const {setShowOptions}: any = useStoreActions((actions) => actions.player);
+  const downloadActions: any = useStoreActions((actions) => actions.download);
 
   return (
     <View>
@@ -55,9 +54,19 @@ const DownloadModal = ({selectedQuality, qualities}: any) => {
                     destination: `${downloadPath}/${quality.id}.mp4`,
                   });
 
-                  await startDownload(task, quality.id, setFiles);
+                  await startDownload(
+                    task,
+                    quality.id,
+                    downloadActions,
+                    quality,
+                  );
 
                   setShowOptions(null);
+
+                  Alert.alert(
+                    'Download Started',
+                    'You can view progress in Downloads dection',
+                  );
                 }}>
                 <Text
                   style={{
