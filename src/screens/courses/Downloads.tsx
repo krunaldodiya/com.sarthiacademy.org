@@ -16,6 +16,9 @@ export default function Downloads({route, navigation}: any) {
   const theme: any = useTheme();
 
   const {files}: any = useStoreState((state) => state.download);
+
+  console.log(files);
+
   const {
     pauseDownloadAction,
     resumeDownloadAction,
@@ -83,6 +86,16 @@ export default function Downloads({route, navigation}: any) {
                           Progress: {file.task.percent * 100}%
                         </Text>
                       </View>
+
+                      <View style={{marginVertical: 2}}>
+                        <Text
+                          style={{
+                            fontFamily: theme.fontFamily.QuicksandSemiBold,
+                            fontSize: 14,
+                          }}>
+                          Status: {file.task.state}
+                        </Text>
+                      </View>
                     </View>
 
                     <View
@@ -94,16 +107,16 @@ export default function Downloads({route, navigation}: any) {
                         <Icon
                           type="AntDesign"
                           name={
-                            file.task.state === 'DOWNLOADING'
-                              ? 'pausecircleo'
-                              : 'playcircleo'
+                            file.task.state === 'PAUSED'
+                              ? 'playcircleo'
+                              : 'pausecircleo'
                           }
                           color="#000"
                           size={26}
                           onPress={() => {
-                            file.task.state === 'DOWNLOADING'
-                              ? pauseDownloadAction(file.task)
-                              : resumeDownloadAction(file.task);
+                            file.task.state === 'PAUSED'
+                              ? resumeDownloadAction({task: file.task})
+                              : pauseDownloadAction({task: file.task});
                           }}
                         />
                       </View>
@@ -114,7 +127,7 @@ export default function Downloads({route, navigation}: any) {
                           name="delete"
                           color="#f00"
                           size={26}
-                          onPress={() => stopDownloadAction(file.task)}
+                          onPress={() => stopDownloadAction({task: file.task})}
                         />
                       </View>
                     </View>

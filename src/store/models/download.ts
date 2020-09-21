@@ -5,16 +5,20 @@ export const downloadModel = {
 
   startDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
-    state.files[task.id] = payload;
+
+    state.files[task.id] = {...state.files[task.id], ...payload};
   }),
 
   updateDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
+
     state.files[task.id] = {...state.files[task.id], ...payload};
   }),
 
   pauseDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
+
+    state.files[task.id] = {...state.files[task.id], ...payload};
 
     task.pause();
   }),
@@ -22,12 +26,18 @@ export const downloadModel = {
   resumeDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
 
+    state.files[task.id] = {...state.files[task.id], ...payload};
+
     task.resume();
   }),
 
   stopDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
 
-    task.stop();
+    if (task.state === 'DOWNLOADING') {
+      task.stop();
+    }
+
+    delete state.files[task.id];
   }),
 };
