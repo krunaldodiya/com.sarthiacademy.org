@@ -102,7 +102,7 @@ const Player = (props: any) => {
 
       const destination =
         files[selectedQuality.id] &&
-        files[selectedQuality.id].task.state === 'done'
+        files[selectedQuality.id].task.state === 'DONE'
           ? `${downloadPath}/${selectedQuality.id}.mp4`
           : localProxyURL;
 

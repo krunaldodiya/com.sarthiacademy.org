@@ -23,11 +23,6 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
     });
 
     startDownload(task, downloadActions, quality, currentVideo, chapter);
-
-    Alert.alert(
-      'Download Started',
-      'You can view progress in Downloads section',
-    );
   };
 
   const fileExists = (quality: any) => {
@@ -56,7 +51,7 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
                 fontSize: 17,
                 textTransform: 'uppercase',
               }}>
-              cancel
+              okay
             </Text>
           </TouchableOpacity>
         </View>
@@ -83,28 +78,11 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
                 </Text>
               </View>
 
-              <TouchableOpacity
-                disabled={fileExists(quality)}
-                style={{
-                  width: 130,
-                  backgroundColor: fileExists(quality) ? '#cccccc' : '#008000',
-                  paddingVertical: 8,
-                  borderRadius: 5,
-                  alignItems: 'center',
-                }}
-                onPress={() => manageDownload(quality) !== null}>
-                <Text
-                  style={{
-                    color: fileExists(quality) ? '#666666' : '#ffffff',
-                    fontFamily: theme.fontFamily.QuicksandSemiBold,
-                    fontSize: 14,
-                    textTransform: 'uppercase',
-                  }}>
-                  {fileExists(quality)
-                    ? fileExists(quality).task.state
-                    : 'Download'}
-                </Text>
-              </TouchableOpacity>
+              <DownloadButton
+                fileExists={fileExists}
+                quality={quality}
+                manageDownload={manageDownload}
+              />
             </View>
           );
         })}
@@ -114,3 +92,41 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
 };
 
 export default memo(DownloadModal);
+
+const DownloadButton = ({fileExists, quality, manageDownload}: any) => {
+  const theme = useTheme();
+
+  const getButtonTitle = () => {
+    if (fileExists(quality)) {
+      return fileExists(quality).task.state;
+    } else {
+      return 'Download';
+    }
+  };
+
+  return (
+    <TouchableOpacity
+      disabled={fileExists(quality) !== null}
+      style={{
+        width: 130,
+        backgroundColor: fileExists(quality) ? '#cccccc' : '#008000',
+        paddingVertical: 8,
+        borderRadius: 5,
+        alignItems: 'center',
+      }}
+      onPress={async () => {
+        await manageDownload(quality);
+        Alert.alert('Success', 'Download will start in a few moment');
+      }}>
+      <Text
+        style={{
+          color: fileExists(quality) ? '#666666' : '#ffffff',
+          fontFamily: theme.fontFamily.QuicksandSemiBold,
+          fontSize: 14,
+          textTransform: 'uppercase',
+        }}>
+        {getButtonTitle()}
+      </Text>
+    </TouchableOpacity>
+  );
+};
