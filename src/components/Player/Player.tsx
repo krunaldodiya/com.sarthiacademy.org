@@ -21,6 +21,7 @@ const Player = (props: any) => {
     nextVideo,
     previousVideo,
     chapter,
+    progress,
   } = props;
 
   const playerRef = useRef(null);
@@ -28,8 +29,6 @@ const Player = (props: any) => {
   const [timerId, setTimerId] = useState<any>();
 
   const [isSimEmu, setIsSimEmu] = useState<any>(null);
-
-  const [progress, setProgress] = useState<any>(0);
 
   const [link, setLink] = useState<any>('');
 
@@ -164,7 +163,7 @@ const Player = (props: any) => {
           }}
           source={{uri: link}}
           onProgress={(data: any) => {
-            setProgress(data.currentTime);
+            progress.current = data.currentTime;
 
             if (isBuffering) {
               setIsBuffering(false);
@@ -174,7 +173,8 @@ const Player = (props: any) => {
             isSliding === false && setIsBuffering(true);
           }}
           onLoad={(data: any) => {
-            setProgress(data.currentTime);
+            progress.current = data.currentTime;
+
             setDuration(data.duration);
 
             setIsBuffering(false);
@@ -199,7 +199,7 @@ const Player = (props: any) => {
             chapter={chapter}
             playerRef={playerRef}
             toggleFullScreen={toggleFullScreen}
-            progress={progress}
+            progress={progress.current}
           />
         )}
       </TouchableOpacity>

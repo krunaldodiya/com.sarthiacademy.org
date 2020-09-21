@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import {useTheme} from 'styled-components';

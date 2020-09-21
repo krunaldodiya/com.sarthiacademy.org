@@ -1,5 +1,5 @@
 import {useStoreState} from 'easy-peasy';
-import React, {memo} from 'react';
+import React, {memo, useRef} from 'react';
 import {StatusBar, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useTheme} from 'styled-components';
@@ -18,6 +18,8 @@ const VideoPlayer = (props: any) => {
   );
 
   const {isFullScreen} = useStoreState((state) => state.player);
+
+  const progress = useRef(0);
 
   return (
     <>
@@ -41,6 +43,7 @@ const VideoPlayer = (props: any) => {
             nextVideo={nextVideo}
             previousVideo={previousVideo}
             videoQuality={quality}
+            progress={progress}
           />
         </View>
       </SafeAreaView>
