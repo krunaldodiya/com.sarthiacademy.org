@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Icon from 'react-native-dynamic-vector-icons';
 import {useTheme} from 'styled-components';
 import {screens} from '../../libs/screens';
 
@@ -80,8 +81,34 @@ export default function Downloads({route, navigation}: any) {
                       </View>
                     </View>
 
-                    <View style={{justifyContent: 'center'}}>
-                      <Text>hello</Text>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View style={{margin: 5}}>
+                        <Icon
+                          type="AntDesign"
+                          name={
+                            file.status === 'downloading'
+                              ? 'playcircleo'
+                              : 'pausecircleo'
+                          }
+                          color="#000"
+                          size={26}
+                          onPress={() => navigation.openDrawer()}
+                        />
+                      </View>
+
+                      <View style={{margin: 5}}>
+                        <Icon
+                          type="AntDesign"
+                          name="delete"
+                          color="#f00"
+                          size={26}
+                          onPress={() => navigation.openDrawer()}
+                        />
+                      </View>
                     </View>
                   </View>
                 </View>
