@@ -4,24 +4,24 @@ export const downloadModel = {
   files: {},
 
   startDownloadAction: action((state: any, payload: any) => {
-    const {id} = payload;
-    state.files[id] = payload;
+    const {task} = payload;
+    state.files[task.id] = payload;
   }),
 
   updateDownloadAction: action((state: any, payload: any) => {
-    const {id} = payload;
-    state.files[id] = {...state.files[id], ...payload};
+    const {task} = payload;
+    state.files[task.id] = {...state.files[task.id], ...payload};
   }),
 
-  pauseDownloadAction: action((state: any, {id, progress}: any) => {
-    //
+  pauseDownloadAction: action((state: any, payload: any) => {
+    const {task} = payload;
   }),
 
-  resumeDownloadAction: action((state: any, {id, progress}: any) => {
-    //
+  resumeDownloadAction: action((state: any, payload: any) => {
+    const {task} = payload;
   }),
 
-  stopDownloadAction: action((state: any, {id, progress}: any) => {
-    //
+  stopDownloadAction: action((state: any, payload: any) => {
+    const {task} = payload;
   }),
 };

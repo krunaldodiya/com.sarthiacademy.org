@@ -45,7 +45,7 @@ function RootStackNavigator(props: any) {
   useEffect(() => {
     RNBackgroundDownloader.checkForExistingDownloads().then((tasks: any) => {
       for (let task of tasks) {
-        updateDownload(task, task.id, downloadActions);
+        updateDownload(task, downloadActions);
       }
     });
   }, [downloadActions]);

@@ -33,8 +33,9 @@ export default function Downloads({route, navigation}: any) {
           {Object.values(files).map((file: any) => {
             return (
               <TouchableOpacity
+                key={file.task.id}
                 onPress={() => {
-                  if (file.status !== 'done') {
+                  if (file.task.state === 'DOWNLOADING') {
                     return Alert.alert('Oops...', 'Video is still downloading');
                   }
 
@@ -44,9 +45,7 @@ export default function Downloads({route, navigation}: any) {
                     chapter: file.chapter,
                   });
                 }}>
-                <View
-                  key={file.id}
-                  style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
+                <View style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
                   <View style={{marginBottom: 10}}>
                     <Text
                       numberOfLines={1}
@@ -76,7 +75,7 @@ export default function Downloads({route, navigation}: any) {
                             fontFamily: theme.fontFamily.QuicksandSemiBold,
                             fontSize: 14,
                           }}>
-                          Progress: {file.progress}%
+                          Progress: {file.task.percent * 100}%
                         </Text>
                       </View>
                     </View>
@@ -90,13 +89,17 @@ export default function Downloads({route, navigation}: any) {
                         <Icon
                           type="AntDesign"
                           name={
-                            file.status === 'downloading'
-                              ? 'playcircleo'
-                              : 'pausecircleo'
+                            file.task.state === 'DOWNLOADING'
+                              ? 'pausecircleo'
+                              : 'playcircleo'
                           }
                           color="#000"
                           size={26}
-                          onPress={() => navigation.openDrawer()}
+                          onPress={() => {
+                            file.task.state === 'DOWNLOADING'
+                              ? file.task.pause()
+                              : file.task.resume();
+                          }}
                         />
                       </View>
 
@@ -106,7 +109,7 @@ export default function Downloads({route, navigation}: any) {
                           name="delete"
                           color="#f00"
                           size={26}
-                          onPress={() => navigation.openDrawer()}
+                          onPress={() => file.task.stop()}
                         />
                       </View>
                     </View>

@@ -56,7 +56,6 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
 
                   await startDownload(
                     task,
-                    quality.id,
                     downloadActions,
                     quality,
                     currentVideo,

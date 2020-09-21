@@ -1,6 +1,5 @@
-export const ta = (
+export const startDownload = (
   task: any,
-  taskId: any,
   downloadActions: any,
   quality: any,
   video: any,
@@ -10,52 +9,29 @@ export const ta = (
 
   task.begin(() => {
     startDownloadAction({
-      id: taskId,
-      progress: 0,
-      status: 'downloading',
+      task,
       quality,
       video,
       chapter,
     });
   });
 
-  return updateDownload(task, taskId, downloadActions);
+  return updateDownload(task, downloadActions);
 };
 
-export const updateDownload = (
-  task: any,
-  taskId: any,
-  downloadActions: any,
-) => {
+export const updateDownload = (task: any, downloadActions: any) => {
   const {updateDownloadAction} = downloadActions;
 
   return task
-    .progress((percent: number) => {
-      updateDownloadAction({
-        id: taskId,
-        progress: percent * 100,
-        status: percent === 1 ? 'done' : 'downloading',
-      });
+    .progress(() => {
+      updateDownloadAction({task});
     })
     .done(() => {
       updateDownloadAction({
-        id: taskId,
-        progress: 100,
-        status: 'done',
+        task: {...task, percent: 1, bytesWritten: task.totalBytes},
       });
     })
     .error((error: any) => {
       console.log('Download canceled due to error: ', error);
     });
 };
-
-// check Root.tsx for resuming downloads on startup
-
-// // Pause the task
-// task.pause();
-
-// // Resume after pause
-// task.resume();
-
-// // Cancel the task
-// task.stop();
