@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useTheme} from 'styled-components';
 
-const QualityModal = ({selectedQuality, qualities}: any) => {
+const QualityModal = ({selectedQuality, currentVideo}: any) => {
   const theme = useTheme();
 
   const {setQuality, setShowOptions}: any = useStoreActions(
@@ -40,7 +40,7 @@ const QualityModal = ({selectedQuality, qualities}: any) => {
       </View>
 
       <View style={{padding: 5}}>
-        {qualities.map((quality: any) => {
+        {currentVideo.qualities.map((quality: any) => {
           return (
             <View key={quality.id}>
               <TouchableOpacity

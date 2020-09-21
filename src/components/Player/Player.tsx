@@ -198,17 +198,18 @@ const Player = (props: any) => {
       {!isFullScreen && (
         <PlayerOptions
           {...props}
+          chapter={chapter}
           currentVideo={currentVideo}
           nextVideo={nextVideo}
           previousVideo={previousVideo}
-          chapter={chapter}
         />
       )}
 
       {showOptions !== null && (
         <PlayerOptionsModal
           {...props}
-          qualities={currentVideo.qualities}
+          chapter={chapter}
+          currentVideo={currentVideo}
           selectedQuality={selectedQuality}
           rates={['0.25', '0.50', '1.00', '1.25', '1.50', '2.00']}
         />

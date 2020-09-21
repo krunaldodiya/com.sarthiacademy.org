@@ -1,4 +1,11 @@
-export const startDownload = (task: any, taskId: any, downloadActions: any) => {
+export const startDownload = (
+  task: any,
+  taskId: any,
+  downloadActions: any,
+  quality: any,
+  video: any,
+  chapter: any,
+) => {
   const {startDownloadAction} = downloadActions;
 
   task.begin(() => {
@@ -6,6 +13,9 @@ export const startDownload = (task: any, taskId: any, downloadActions: any) => {
       id: taskId,
       progress: 0,
       status: 'downloading',
+      quality,
+      video,
+      chapter,
     });
   });
 

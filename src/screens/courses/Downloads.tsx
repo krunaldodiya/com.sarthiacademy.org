@@ -1,6 +1,7 @@
 import {useStoreState} from 'easy-peasy';
 import React from 'react';
 import {
+  Alert,
   SafeAreaView,
   StatusBar,
   Text,
@@ -28,42 +29,61 @@ export default function Downloads({route, navigation}: any) {
           backgroundColor: theme.backgroundColor.primary,
         }}>
         <View style={{flex: 1}}>
-          {Object.values(files).map((quality: any) => {
+          {Object.values(files).map((file: any) => {
             return (
               <TouchableOpacity
                 onPress={() => {
+                  if (file.status !== 'done') {
+                    return Alert.alert('Oops...', 'Video is still downloading');
+                  }
+
                   navigation.push(screens.VideoPlayer.name, {
-                    quality,
-                    video: null,
-                    chapter: null,
+                    quality: file.quality,
+                    video: file.video,
+                    chapter: file.chapter,
                   });
                 }}>
                 <View
-                  key={quality.id}
+                  key={file.id}
                   style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
-                  <Text
-                    style={{
-                      fontFamily: theme.fontFamily.QuicksandBold,
-                      fontSize: 14,
-                    }}>
-                    {quality.id}
-                  </Text>
+                  <View style={{marginBottom: 10}}>
+                    <Text
+                      numberOfLines={1}
+                      style={{
+                        fontFamily: theme.fontFamily.QuicksandBold,
+                        fontSize: 18,
+                      }}>
+                      {file.video.title}
+                    </Text>
+                  </View>
 
-                  <Text
-                    style={{
-                      fontFamily: theme.fontFamily.QuicksandBold,
-                      fontSize: 14,
-                    }}>
-                    Progress: {quality.progress}%
-                  </Text>
+                  <View style={{flexDirection: 'row'}}>
+                    <View style={{flex: 1, justifyContent: 'center'}}>
+                      <View style={{marginVertical: 2}}>
+                        <Text
+                          style={{
+                            fontFamily: theme.fontFamily.QuicksandSemiBold,
+                            fontSize: 14,
+                          }}>
+                          Quality: {file.quality.quality}
+                        </Text>
+                      </View>
 
-                  <Text
-                    style={{
-                      fontFamily: theme.fontFamily.QuicksandBold,
-                      fontSize: 14,
-                    }}>
-                    Status: {quality.status}
-                  </Text>
+                      <View style={{marginVertical: 2}}>
+                        <Text
+                          style={{
+                            fontFamily: theme.fontFamily.QuicksandSemiBold,
+                            fontSize: 14,
+                          }}>
+                          Progress: {file.progress}%
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={{justifyContent: 'center'}}>
+                      <Text>hello</Text>
+                    </View>
+                  </View>
                 </View>
               </TouchableOpacity>
             );

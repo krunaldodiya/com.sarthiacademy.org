@@ -1,4 +1,4 @@
-import {useStoreActions, useStoreState} from 'easy-peasy';
+import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
 import {Alert, Text, View} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
@@ -7,7 +7,7 @@ import {useTheme} from 'styled-components';
 import {startDownload} from '../../libs/download';
 import {downloadPath} from '../../libs/vars';
 
-const DownloadModal = ({qualities}: any) => {
+const DownloadModal = ({currentVideo, chapter}: any) => {
   const theme = useTheme();
 
   const {setShowOptions}: any = useStoreActions((actions) => actions.player);
@@ -42,7 +42,7 @@ const DownloadModal = ({qualities}: any) => {
       </View>
 
       <View style={{padding: 5}}>
-        {qualities.map((quality: any) => {
+        {currentVideo.qualities.map((quality: any) => {
           return (
             <View key={quality.id}>
               <TouchableOpacity
@@ -54,7 +54,14 @@ const DownloadModal = ({qualities}: any) => {
                     destination: `${downloadPath}/${quality.id}.mp4`,
                   });
 
-                  await startDownload(task, quality.id, downloadActions);
+                  await startDownload(
+                    task,
+                    quality.id,
+                    downloadActions,
+                    quality,
+                    currentVideo,
+                    chapter,
+                  );
 
                   setShowOptions(null);
 
