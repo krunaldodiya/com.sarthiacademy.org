@@ -121,7 +121,7 @@ export default function Downloads({route, navigation}: any) {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        {item.task.state === 'DOWNLOADING' && (
+                        {item.task.state !== 'DONE' && (
                           <View style={{margin: 5}}>
                             <Icon
                               type="AntDesign"
@@ -147,9 +147,25 @@ export default function Downloads({route, navigation}: any) {
                             name="delete"
                             color="#f00"
                             size={26}
-                            onPress={() =>
-                              stopDownloadAction({task: item.task})
-                            }
+                            onPress={() => {
+                              Alert.alert(
+                                'Delete Download',
+                                'Are you sure ?',
+                                [
+                                  {
+                                    text: 'OK',
+                                    onPress: () => {
+                                      stopDownloadAction({task: item.task});
+                                    },
+                                  },
+
+                                  {
+                                    text: 'Cancel',
+                                  },
+                                ],
+                                {cancelable: false},
+                              );
+                            }}
                           />
                         </View>
                       </View>
