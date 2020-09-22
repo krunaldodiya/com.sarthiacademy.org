@@ -12,7 +12,6 @@ import Icon from 'react-native-dynamic-vector-icons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
-import {authUserApi} from '../../api/authUserApi';
 import {streamsApi} from '../../api/streamsApi';
 import {screens} from '../../libs/screens';
 import {baseUrl} from '../../libs/vars';
@@ -23,18 +22,6 @@ export default function Live({route, navigation}: any) {
   const theme: any = useTheme();
 
   const {selectedCourseId} = useStoreState((state) => state.home);
-
-  // const {data: authUser}: any = useQuery('auth_user', authUserApi, {
-  //   retry: false,
-  // });
-
-  // const plan_subscription = authUser.subscriptions.find(
-  //   (subscription: any) => selectedCourseId === subscription.plan.course_id,
-  // );
-
-  // if (plan_subscription.plan.price === 0) {
-  //   return <AccessDenied />;
-  // }
 
   const {data: streams, isLoading}: any = useQuery(
     ['streams', selectedCourseId],

@@ -74,7 +74,7 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
                     fontFamily: theme.fontFamily.QuicksandRegular,
                     fontSize: 22,
                   }}>
-                  {quality.quality}
+                  {quality.quality} - {quality.size} MB
                 </Text>
               </View>
 

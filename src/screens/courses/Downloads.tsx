@@ -57,9 +57,12 @@ export default function Downloads({route, navigation}: any) {
                       chapter: item.chapter,
                     });
                   }}>
-                  <View
-                    style={{margin: 5, backgroundColor: '#fff', padding: 10}}>
-                    <View style={{marginBottom: 10}}>
+                  <View style={{margin: 5, backgroundColor: '#fff'}}>
+                    <View
+                      style={{
+                        padding: 10,
+                        backgroundColor: '#eee',
+                      }}>
                       <Text
                         numberOfLines={1}
                         style={{
@@ -70,7 +73,7 @@ export default function Downloads({route, navigation}: any) {
                       </Text>
                     </View>
 
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={{flexDirection: 'row', padding: 5}}>
                       <View style={{flex: 1, justifyContent: 'center'}}>
                         <View style={{marginVertical: 2}}>
                           <Text
@@ -88,7 +91,17 @@ export default function Downloads({route, navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Progress: {item.task.percent.toFixed(2) * 100}%
+                            Progress: {(item.task.percent * 100).toFixed(2)}%
+                          </Text>
+                        </View>
+
+                        <View style={{marginVertical: 2}}>
+                          <Text
+                            style={{
+                              fontFamily: theme.fontFamily.QuicksandSemiBold,
+                              fontSize: 14,
+                            }}>
+                            Size: {item.quality.size} MB
                           </Text>
                         </View>
 
@@ -108,23 +121,25 @@ export default function Downloads({route, navigation}: any) {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        <View style={{margin: 5}}>
-                          <Icon
-                            type="AntDesign"
-                            name={
-                              item.task.state === 'PAUSED'
-                                ? 'playcircleo'
-                                : 'pausecircleo'
-                            }
-                            color="#000"
-                            size={26}
-                            onPress={() => {
-                              item.task.state === 'PAUSED'
-                                ? resumeDownloadAction({task: item.task})
-                                : pauseDownloadAction({task: item.task});
-                            }}
-                          />
-                        </View>
+                        {item.task.state === 'DOWNLOADING' && (
+                          <View style={{margin: 5}}>
+                            <Icon
+                              type="AntDesign"
+                              name={
+                                item.task.state === 'PAUSED'
+                                  ? 'playcircleo'
+                                  : 'pausecircleo'
+                              }
+                              color="#000"
+                              size={26}
+                              onPress={() => {
+                                item.task.state === 'PAUSED'
+                                  ? resumeDownloadAction({task: item.task})
+                                  : pauseDownloadAction({task: item.task});
+                              }}
+                            />
+                          </View>
+                        )}
 
                         <View style={{margin: 5}}>
                           <Icon
