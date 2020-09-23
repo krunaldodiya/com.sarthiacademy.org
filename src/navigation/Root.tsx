@@ -1,19 +1,17 @@
 import {DrawerActions, NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useStoreActions, useStoreState} from 'easy-peasy';
-import Echo from 'laravel-echo';
-import PusherNative from 'pusher-js/react-native';
 import React, {useEffect} from 'react';
-import {Alert, Image, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
 import Icon from 'react-native-dynamic-vector-icons';
 import {useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
 import {authUserApi} from '../api/authUserApi';
 import {updateDownload} from '../libs/download';
+import {echo} from '../libs/echo';
 import {getMediaFile} from '../libs/media';
 import {screens} from '../libs/screens';
-import {apiUrl} from '../libs/vars';
 import Chapters from '../screens/courses/Chapters';
 import StartTest from '../screens/courses/StartTest';
 import VideoPlayer from '../screens/courses/VideoPlayer';
@@ -54,33 +52,8 @@ function RootStackNavigator(props: any) {
   }, [downloadActions]);
 
   useEffect(() => {
-    let options = {
-      cluster: 'mt1',
-      encrypted: true,
-      key: 'myAppKey',
-      wsHost: `${apiUrl}`,
-      wsPort: 6001,
-      authEndpoint: `${apiUrl}/broadcasting/auth`,
-      logToConsole: true,
-      auth: {
-        headers: {
-          Authorization:
-            'Bearer 852|xAhiE0oFNBZm4TZQnM4u6Avz1pxnNGeOQeBEO4kMvZMSv2768FccdpMFQqyRZn0nJKPHKSbk1qUylJ2v',
-          Accept: 'application/json',
-        },
-      },
-    };
-
-    let PusherClient = new PusherNative(options.key, options);
-
-    let echo = new Echo({
-      broadcaster: 'pusher',
-      client: PusherClient,
-      ...options,
-    });
-
-    echo.channel('home').listen('NewMessage', (e) => {
-      Alert.alert('test', 'hello');
+    echo.channel('test').listen('hello', (e: any) => {
+      console.log('event', e);
     });
   }, []);
 
