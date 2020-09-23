@@ -52,7 +52,7 @@ function RootStackNavigator(props: any) {
   }, [downloadActions]);
 
   useEffect(() => {
-    echo.channel('test').listen('hello', (e: any) => {
+    echo.channel('channel-test').listen('MessageReceived', (e: any) => {
       console.log('event', e);
     });
   }, []);
