@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
@@ -16,10 +17,10 @@ import Orientation from 'react-native-orientation-locker';
 import YouTube from 'react-native-youtube';
 import {queryCache, useMutation, useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
+import {authUserApi} from '../../api/authUserApi';
 import {getMessagesApi} from '../../api/getMessagesApi';
 import {sendMessageApi} from '../../api/sendMessageApi';
 import {echo} from '../../libs/echo';
-import moment from 'moment';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,6 +28,10 @@ export default function YTPlayer({route, navigation}: any) {
   const {video} = route.params;
 
   const theme: any = useTheme();
+
+  const {data: authUser}: any = useQuery('auth_user', authUserApi, {
+    retry: false,
+  });
 
   const [isFullScreen, setIsFullScreen] = useState(false);
 
@@ -56,13 +61,32 @@ export default function YTPlayer({route, navigation}: any) {
     [navigation, isFullScreen, setIsFullScreen],
   );
 
+  const updateMessages = useCallback(
+    (message: any) => {
+      const allMessages: any = queryCache.getQueryData([
+        'getMessages',
+        video.video_id,
+      ]);
+
+      queryCache.setQueryData(
+        ['getMessages', video.video_id],
+        [...allMessages, message],
+      );
+    },
+    [video.video_id],
+  );
+
   useEffect(() => {
     echo
       .channel(`channel-${video.video_id}`)
-      .listen('MessageReceived', (e: any) => {
-        console.log('event', e);
+      .listen('MessageReceived', ({message}: any) => {
+        if (message.sender_id !== authUser.id) {
+          console.log('message', message);
+
+          updateMessages(message);
+        }
       });
-  }, [video]);
+  }, [video.video_id, authUser, updateMessages]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -108,7 +132,10 @@ export default function YTPlayer({route, navigation}: any) {
                 onPress={() => toggleFullScreen(false)}
               />
 
-              <Chat channel_id={video.video_id} />
+              <Chat
+                channel_id={video.video_id}
+                updateMessages={updateMessages}
+              />
             </>
           )}
         </View>
@@ -117,22 +144,13 @@ export default function YTPlayer({route, navigation}: any) {
   );
 }
 
-const Chat = ({channel_id}: any) => {
+const Chat = ({channel_id, updateMessages}: any) => {
   const [message, setMessage] = useState('');
 
   const [sendMessage] = useMutation(sendMessageApi, {
     onSuccess: (data) => {
+      updateMessages(data);
       setMessage('');
-
-      const allMessages: any = queryCache.getQueryData([
-        'getMessages',
-        channel_id,
-      ]);
-
-      queryCache.setQueryData(
-        ['getMessages', channel_id],
-        [...allMessages, data],
-      );
     },
     onError: (error) => {
       console.log(error);

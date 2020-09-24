@@ -10,5 +10,5 @@ export const sendMessageApi = async (payload: {
     data: payload,
   });
 
-  return data.chat;
+  return data.message;
 };
