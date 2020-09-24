@@ -72,7 +72,7 @@ export default function Live({route, navigation}: any) {
                   }}
                   onPress={() => {
                     return navigation.push(screens.YTPlayer.name, {
-                      videoId: item.video_id,
+                      video: item,
                     });
                   }}>
                   <View

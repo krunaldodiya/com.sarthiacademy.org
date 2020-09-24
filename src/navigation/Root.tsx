@@ -9,7 +9,6 @@ import {useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
 import {authUserApi} from '../api/authUserApi';
 import {updateDownload} from '../libs/download';
-import {echo} from '../libs/echo';
 import {getMediaFile} from '../libs/media';
 import {screens} from '../libs/screens';
 import Chapters from '../screens/courses/Chapters';
@@ -50,12 +49,6 @@ function RootStackNavigator(props: any) {
       }
     });
   }, [downloadActions]);
-
-  useEffect(() => {
-    echo.channel('channel-test').listen('MessageReceived', (e: any) => {
-      console.log('event', e);
-    });
-  }, []);
 
   return (
     <NavigationContainer>
