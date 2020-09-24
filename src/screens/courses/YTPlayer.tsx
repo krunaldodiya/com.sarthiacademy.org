@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   BackHandler,
@@ -73,7 +73,7 @@ export default function YTPlayer({route, navigation}: any) {
         [...allMessages, message],
       );
     },
-    [video.video_id],
+    [video],
   );
 
   useEffect(() => {
@@ -81,12 +81,10 @@ export default function YTPlayer({route, navigation}: any) {
       .channel(`channel-${video.video_id}`)
       .listen('MessageReceived', ({message}: any) => {
         if (message.sender_id !== authUser.id) {
-          console.log('message', message);
-
           updateMessages(message);
         }
       });
-  }, [video.video_id, authUser, updateMessages]);
+  }, [video, authUser, updateMessages]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -144,7 +142,7 @@ export default function YTPlayer({route, navigation}: any) {
   );
 }
 
-const Chat = ({channel_id, updateMessages}: any) => {
+const Chat = memo(({channel_id, updateMessages}: any) => {
   const [message, setMessage] = useState('');
 
   const [sendMessage] = useMutation(sendMessageApi, {
@@ -176,7 +174,7 @@ const Chat = ({channel_id, updateMessages}: any) => {
 
   return (
     <View style={{flex: 1, backgroundColor: '#fff', padding: 5}}>
-      <View style={{flex: 1, backgroundColor: '#fff', padding: 5}}>
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
         <FlatList
           keyExtractor={(_, index) => index.toString()}
           data={messages.sort((a: any, b: any) => {
@@ -184,8 +182,36 @@ const Chat = ({channel_id, updateMessages}: any) => {
           })}
           renderItem={({item}) => {
             return (
-              <View key={item.id}>
-                <Text>{item.message}</Text>
+              <View
+                key={item.id}
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#eee',
+                  marginBottom: 2,
+                  marginHorizontal: 1,
+                  padding: 5,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                    }}>
+                    {item.sender.name ?? 'Unknown'}
+                  </Text>
+                  <Text style={{fontSize: 12, fontWeight: 'bold'}}>
+                    {moment(item.created_at).fromNow()}
+                  </Text>
+                </View>
+
+                <View style={{marginTop: 5}}>
+                  <Text style={{fontSize: 13}}>{item.message}</Text>
+                </View>
               </View>
             );
           }}
@@ -208,4 +234,4 @@ const Chat = ({channel_id, updateMessages}: any) => {
       </View>
     </View>
   );
-};
+});
