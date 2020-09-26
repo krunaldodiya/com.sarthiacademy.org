@@ -1,19 +1,8 @@
-export const startDownload = (
-  task: any,
-  downloadActions: any,
-  quality: any,
-  video: any,
-  chapter: any,
-) => {
+export const startDownload = (task: any, downloadActions: any) => {
   const {startDownloadAction} = downloadActions;
 
   task.begin(() => {
-    startDownloadAction({
-      task,
-      quality,
-      video,
-      chapter,
-    });
+    startDownloadAction({task});
   });
 
   return updateDownload(task, downloadActions);

@@ -22,7 +22,7 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
       destination: `${downloadPath}/${quality.id}.mp4`,
     });
 
-    startDownload(task, downloadActions, quality, currentVideo, chapter);
+    startDownload(task, downloadActions);
   };
 
   const fileExists = (quality: any) => {

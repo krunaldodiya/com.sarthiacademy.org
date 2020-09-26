@@ -61,30 +61,19 @@ export default function YTPlayer({route, navigation}: any) {
     [navigation, isFullScreen, setIsFullScreen],
   );
 
-  const updateMessages = useCallback(
-    (message: any) => {
-      const allMessages: any = queryCache.getQueryData([
-        'getMessages',
-        video.video_id,
-      ]);
-
-      queryCache.setQueryData(
-        ['getMessages', video.video_id],
-        [...allMessages, message],
-      );
-    },
-    [video],
-  );
+  const updateMessages = useCallback(() => {
+    queryCache.invalidateQueries(['getMessages', video.video_id]);
+  }, [video.video_id]);
 
   useEffect(() => {
     echo
       .channel(`channel-${video.video_id}`)
       .listen('MessageReceived', ({message}: any) => {
         if (message.sender_id !== authUser.id) {
-          updateMessages(message);
+          updateMessages();
         }
       });
-  }, [video, authUser, updateMessages]);
+  }, [video.video_id, authUser, updateMessages]);
 
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -146,8 +135,8 @@ const Chat = memo(({channel_id, updateMessages}: any) => {
   const [message, setMessage] = useState('');
 
   const [sendMessage] = useMutation(sendMessageApi, {
-    onSuccess: (data) => {
-      updateMessages(data);
+    onSuccess: () => {
+      updateMessages();
       setMessage('');
     },
     onError: (error) => {

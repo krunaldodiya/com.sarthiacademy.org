@@ -1,19 +1,22 @@
 import {useStoreActions, useStoreState} from 'easy-peasy';
 import React from 'react';
 import {
+  ActivityIndicator,
   Alert,
   FlatList,
   SafeAreaView,
   StatusBar,
+  Text,
   TouchableOpacity,
   View,
-  Text,
 } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
+import {useQuery} from 'react-query';
 import {useTheme} from 'styled-components';
+import {getQualityByIds} from '../../api/getQualityByIds';
 import {screens} from '../../libs/screens';
 
-export default function Downloads({route, navigation}: any) {
+export default function Downloads({navigation}: any) {
   const theme: any = useTheme();
 
   const {files}: any = useStoreState((state) => state.download);
@@ -23,6 +26,19 @@ export default function Downloads({route, navigation}: any) {
     resumeDownloadAction,
     stopDownloadAction,
   }: any = useStoreActions((actions) => actions.download);
+
+  const {data: qualities, isLoading} = useQuery(
+    ['qualities', Object.keys(files)],
+    getQualityByIds,
+  );
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="small" color="#000" />
+      </View>
+    );
+  }
 
   return (
     <>
@@ -39,12 +55,14 @@ export default function Downloads({route, navigation}: any) {
         <View style={{flex: 1}}>
           <FlatList
             keyExtractor={(_, index) => index.toString()}
-            data={Object.values(files)}
+            data={qualities}
             renderItem={({item}: any) => {
+              const task = files[item.id].task;
+
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    if (item.task.state === 'DOWNLOADING') {
+                    if (task.state === 'DOWNLOADING') {
                       return Alert.alert(
                         'Oops...',
                         'Video is still downloading',
@@ -52,9 +70,9 @@ export default function Downloads({route, navigation}: any) {
                     }
 
                     navigation.push(screens.VideoPlayer.name, {
-                      quality: item.quality,
+                      quality: item,
                       video: item.video,
-                      chapter: item.chapter,
+                      chapter: item.video.chapter,
                     });
                   }}>
                   <View style={{margin: 5, backgroundColor: '#fff'}}>
@@ -81,7 +99,7 @@ export default function Downloads({route, navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Quality: {item.quality.quality}
+                            Quality: {item.quality}
                           </Text>
                         </View>
 
@@ -91,7 +109,7 @@ export default function Downloads({route, navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Progress: {(item.task.percent * 100).toFixed(2)}%
+                            Progress: {(task.percent * 100).toFixed(2)}%
                           </Text>
                         </View>
 
@@ -101,7 +119,7 @@ export default function Downloads({route, navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Size: {item.quality.size} MB
+                            Size: {item.size} MB
                           </Text>
                         </View>
 
@@ -111,7 +129,7 @@ export default function Downloads({route, navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Status: {item.task.state}
+                            Status: {task.state}
                           </Text>
                         </View>
                       </View>
@@ -121,21 +139,21 @@ export default function Downloads({route, navigation}: any) {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        {item.task.state !== 'DONE' && (
+                        {task.state !== 'DONE' && (
                           <View style={{margin: 5}}>
                             <Icon
                               type="AntDesign"
                               name={
-                                item.task.state === 'PAUSED'
+                                task.state === 'PAUSED'
                                   ? 'playcircleo'
                                   : 'pausecircleo'
                               }
                               color="#000"
                               size={26}
                               onPress={() => {
-                                item.task.state === 'PAUSED'
-                                  ? resumeDownloadAction({task: item.task})
-                                  : pauseDownloadAction({task: item.task});
+                                task.state === 'PAUSED'
+                                  ? resumeDownloadAction({task})
+                                  : pauseDownloadAction({task});
                               }}
                             />
                           </View>
@@ -155,7 +173,7 @@ export default function Downloads({route, navigation}: any) {
                                   {
                                     text: 'OK',
                                     onPress: () => {
-                                      stopDownloadAction({task: item.task});
+                                      stopDownloadAction({task});
                                     },
                                   },
 
