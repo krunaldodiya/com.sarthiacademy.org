@@ -4,10 +4,10 @@ import {Alert, Text, View} from 'react-native';
 import RNBackgroundDownloader from 'react-native-background-downloader';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useTheme} from 'styled-components';
-import {startDownload} from '../../libs/download';
+import {updateDownload} from '../../libs/download';
 import {downloadPath} from '../../libs/vars';
 
-const DownloadModal = ({currentVideo, chapter}: any) => {
+const DownloadModal = ({currentVideo}: any) => {
   const theme = useTheme();
 
   const {files}: any = useStoreState((state) => state.download);
@@ -22,11 +22,11 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
       destination: `${downloadPath}/${quality.id}.mp4`,
     });
 
-    startDownload(task, downloadActions);
+    updateDownload(task, downloadActions);
   };
 
-  const fileExists = (quality: any) => {
-    return files[quality.id] !== undefined ? files[quality.id] : null;
+  const taskExists = (taskId: any) => {
+    return files[taskId] !== undefined ? files[taskId] : null;
   };
 
   return (
@@ -79,7 +79,7 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
               </View>
 
               <DownloadButton
-                fileExists={fileExists}
+                taskExists={taskExists}
                 quality={quality}
                 manageDownload={manageDownload}
               />
@@ -93,12 +93,12 @@ const DownloadModal = ({currentVideo, chapter}: any) => {
 
 export default memo(DownloadModal);
 
-const DownloadButton = ({fileExists, quality, manageDownload}: any) => {
+const DownloadButton = ({taskExists, quality, manageDownload}: any) => {
   const theme = useTheme();
 
   const getButtonTitle = () => {
-    if (fileExists(quality)) {
-      return fileExists(quality).task.state;
+    if (taskExists(quality.id)) {
+      return taskExists(quality.id).taskInfo.state;
     } else {
       return 'Download';
     }
@@ -106,10 +106,10 @@ const DownloadButton = ({fileExists, quality, manageDownload}: any) => {
 
   return (
     <TouchableOpacity
-      disabled={fileExists(quality) !== null}
+      disabled={taskExists(quality.id) !== null}
       style={{
         width: 130,
-        backgroundColor: fileExists(quality) ? '#cccccc' : '#008000',
+        backgroundColor: taskExists(quality.id) ? '#cccccc' : '#008000',
         paddingVertical: 8,
         borderRadius: 5,
         alignItems: 'center',
@@ -120,7 +120,7 @@ const DownloadButton = ({fileExists, quality, manageDownload}: any) => {
       }}>
       <Text
         style={{
-          color: fileExists(quality) ? '#666666' : '#ffffff',
+          color: taskExists(quality.id) ? '#666666' : '#ffffff',
           fontFamily: theme.fontFamily.QuicksandSemiBold,
           fontSize: 14,
           textTransform: 'uppercase',

@@ -3,41 +3,35 @@ import {action} from 'easy-peasy';
 export const downloadModel = {
   files: {},
 
-  startDownloadAction: action((state: any, payload: any) => {
-    const {task} = payload;
-
-    state.files[task.id] = {...state.files[task.id], ...payload};
-  }),
-
   updateDownloadAction: action((state: any, payload: any) => {
     const {task} = payload;
 
-    state.files[task.id] = {...state.files[task.id], ...payload};
+    state.files[task.id] = payload;
   }),
 
-  pauseDownloadAction: action((state: any, payload: any) => {
-    const {task} = payload;
+  pauseDownloadAction: action((state: any, taskId: any) => {
+    const currentTask = state.files[taskId];
 
-    state.files[task.id] = {...state.files[task.id], ...payload};
+    currentTask.taskInfo.state = 'PAUSED';
 
-    task.pause();
+    currentTask.task.pause();
   }),
 
-  resumeDownloadAction: action((state: any, payload: any) => {
-    const {task} = payload;
+  resumeDownloadAction: action((state: any, taskId: any) => {
+    const currentTask = state.files[taskId];
 
-    state.files[task.id] = {...state.files[task.id], ...payload};
+    currentTask.taskInfo.state = 'DOWNLOADING';
 
-    task.resume();
+    currentTask.task.resume();
   }),
 
-  stopDownloadAction: action((state: any, payload: any) => {
-    const {task} = payload;
+  stopDownloadAction: action((state: any, taskId: any) => {
+    const currentTask = state.files[taskId];
 
-    if (task.state === 'DOWNLOADING') {
-      task.stop();
+    if (currentTask.taskInfo.state === 'DOWNLOADING') {
+      currentTask.task.stop();
     }
 
-    delete state.files[task.id];
+    delete state.files[taskId];
   }),
 };

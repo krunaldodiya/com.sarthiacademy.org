@@ -1,23 +1,32 @@
-export const startDownload = (task: any, downloadActions: any) => {
-  const {startDownloadAction} = downloadActions;
-
-  task.begin(() => {
-    startDownloadAction({task});
-  });
-
-  return updateDownload(task, downloadActions);
-};
-
 export const updateDownload = (task: any, downloadActions: any) => {
   const {updateDownloadAction} = downloadActions;
 
   return task
-    .progress(() => {
-      updateDownloadAction({task});
+    .begin(() => {
+      updateDownloadAction({
+        task,
+        taskInfo: {
+          ...task,
+          percent: 0,
+        },
+      });
+    })
+    .progress((percent: number) => {
+      updateDownloadAction({
+        task,
+        taskInfo: {
+          ...task,
+          percent,
+        },
+      });
     })
     .done(() => {
       updateDownloadAction({
-        task: {...task, percent: 1, bytesWritten: task.totalBytes},
+        task,
+        taskInfo: {
+          ...task,
+          percent: 1,
+        },
       });
     })
     .error((error: any) => {
