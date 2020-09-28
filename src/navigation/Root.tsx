@@ -39,16 +39,23 @@ function RootStackNavigator(props: any) {
   });
 
   const {initialScreen} = useStoreState((state) => state.home);
+  const {files} = useStoreState((state) => state.download);
 
   const downloadActions: any = useStoreActions((actions) => actions.download);
+
+  // downloadActions.reset();
 
   useEffect(() => {
     RNBackgroundDownloader.checkForExistingDownloads().then((tasks: any) => {
       for (let task of tasks) {
+        if (files[task.id] && files[task.id].state === 'DOWNLOADING') {
+          task.resume();
+        }
+
         updateDownload(task, downloadActions);
       }
     });
-  }, [downloadActions]);
+  }, [downloadActions, files]);
 
   return (
     <NavigationContainer>

@@ -149,7 +149,7 @@ export default function Downloads({navigation}: any) {
                                   : 'pausecircleo'
                               }
                               color="#000"
-                              size={26}
+                              size={32}
                               onPress={() => {
                                 task.state === 'PAUSED'
                                   ? resumeDownloadAction(task)
@@ -164,7 +164,7 @@ export default function Downloads({navigation}: any) {
                             type="AntDesign"
                             name="delete"
                             color="#f00"
-                            size={26}
+                            size={32}
                             onPress={() => {
                               Alert.alert(
                                 'Delete Download',

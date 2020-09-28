@@ -18,7 +18,9 @@ export const downloadModel = {
     state.files[task.id].state = 'PAUSED';
 
     getTaskById(task.id).then((downloadTask) => {
-      downloadTask && downloadTask.pause();
+      if (downloadTask) {
+        downloadTask.pause();
+      }
     });
   }),
 
@@ -26,7 +28,9 @@ export const downloadModel = {
     state.files[task.id].state = 'DOWNLOADING';
 
     getTaskById(task.id).then((downloadTask) => {
-      downloadTask && downloadTask.resume();
+      if (downloadTask) {
+        downloadTask.resume();
+      }
     });
   }),
 
@@ -34,7 +38,9 @@ export const downloadModel = {
     delete state.files[task.id];
 
     getTaskById(task.id).then((downloadTask) => {
-      downloadTask && downloadTask.stop();
+      if (downloadTask) {
+        downloadTask.stop();
+      }
     });
   }),
 

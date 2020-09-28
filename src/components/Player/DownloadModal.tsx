@@ -15,7 +15,15 @@ const DownloadModal = ({currentVideo}: any) => {
   const {setShowOptions}: any = useStoreActions((actions) => actions.player);
   const downloadActions: any = useStoreActions((actions) => actions.download);
 
-  const manageDownload = async (quality: any) => {
+  const startDownload = async (quality: any) => {
+    downloadActions.updateDownloadAction({
+      id: quality.id,
+      state: 'PENDING',
+      percent: 0,
+      bytesWritten: 0,
+      totalBytes: 0,
+    });
+
     const task = await RNBackgroundDownloader.download({
       id: quality.id,
       url: quality.link,
@@ -81,7 +89,7 @@ const DownloadModal = ({currentVideo}: any) => {
               <DownloadButton
                 taskExists={taskExists}
                 quality={quality}
-                manageDownload={manageDownload}
+                startDownload={startDownload}
               />
             </View>
           );
@@ -93,7 +101,7 @@ const DownloadModal = ({currentVideo}: any) => {
 
 export default memo(DownloadModal);
 
-const DownloadButton = ({taskExists, quality, manageDownload}: any) => {
+const DownloadButton = ({taskExists, quality, startDownload}: any) => {
   const theme = useTheme();
 
   const getButtonTitle = () => {
@@ -114,10 +122,7 @@ const DownloadButton = ({taskExists, quality, manageDownload}: any) => {
         borderRadius: 5,
         alignItems: 'center',
       }}
-      onPress={async () => {
-        await manageDownload(quality);
-        Alert.alert('Success', 'Download will start in a few moment');
-      }}>
+      onPress={async () => await startDownload(quality)}>
       <Text
         style={{
           color: taskExists(quality.id) ? '#666666' : '#ffffff',
