@@ -98,7 +98,7 @@ const DownloadButton = ({taskExists, quality, manageDownload}: any) => {
 
   const getButtonTitle = () => {
     if (taskExists(quality.id)) {
-      return taskExists(quality.id).task.state;
+      return taskExists(quality.id).state;
     } else {
       return 'Download';
     }
