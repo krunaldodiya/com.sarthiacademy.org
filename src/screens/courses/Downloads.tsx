@@ -57,15 +57,15 @@ export default function Downloads({navigation}: any) {
             keyExtractor={(_, index) => index.toString()}
             data={qualities}
             renderItem={({item}: any) => {
-              const {taskInfo} = files[item.id];
+              const task = files[item.id];
 
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    if (taskInfo.state === 'DOWNLOADING') {
+                    if (task.state !== 'DONE') {
                       return Alert.alert(
                         'Oops...',
-                        'Video is still downloading',
+                        'Video is not downloaded yet',
                       );
                     }
 
@@ -109,7 +109,7 @@ export default function Downloads({navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Progress: {(taskInfo.percent * 100).toFixed(2)}%
+                            Progress: {(task.percent * 100).toFixed(2)}%
                           </Text>
                         </View>
 
@@ -129,7 +129,7 @@ export default function Downloads({navigation}: any) {
                               fontFamily: theme.fontFamily.QuicksandSemiBold,
                               fontSize: 14,
                             }}>
-                            Status: {taskInfo.state}
+                            Status: {task.state}
                           </Text>
                         </View>
                       </View>
@@ -139,21 +139,21 @@ export default function Downloads({navigation}: any) {
                           flexDirection: 'row',
                           alignItems: 'center',
                         }}>
-                        {taskInfo.state !== 'DONE' && (
+                        {task.state !== 'DONE' && (
                           <View style={{margin: 5}}>
                             <Icon
                               type="AntDesign"
                               name={
-                                taskInfo.state === 'PAUSED'
+                                task.state === 'PAUSED'
                                   ? 'playcircleo'
                                   : 'pausecircleo'
                               }
                               color="#000"
                               size={26}
                               onPress={() => {
-                                taskInfo.state === 'PAUSED'
-                                  ? resumeDownloadAction(taskInfo.id)
-                                  : pauseDownloadAction(taskInfo.id);
+                                task.state === 'PAUSED'
+                                  ? resumeDownloadAction(task)
+                                  : pauseDownloadAction(task);
                               }}
                             />
                           </View>
@@ -173,7 +173,7 @@ export default function Downloads({navigation}: any) {
                                   {
                                     text: 'OK',
                                     onPress: () => {
-                                      stopDownloadAction(taskInfo.id);
+                                      stopDownloadAction(task);
                                     },
                                   },
 

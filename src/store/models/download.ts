@@ -1,37 +1,44 @@
 import {action} from 'easy-peasy';
+import RNBackgroundDownloader from 'react-native-background-downloader';
+
+const getTaskById = async (taskId: any) => {
+  const tasks = await RNBackgroundDownloader.checkForExistingDownloads();
+
+  return tasks.find((task: any) => task.id === taskId);
+};
 
 export const downloadModel = {
   files: {},
 
-  updateDownloadAction: action((state: any, payload: any) => {
-    const {task} = payload;
-
-    state.files[task.id] = payload;
+  updateDownloadAction: action((state: any, task: any) => {
+    state.files[task.id] = task;
   }),
 
-  pauseDownloadAction: action((state: any, taskId: any) => {
-    const currentTask = state.files[taskId];
+  pauseDownloadAction: action((state: any, task: any) => {
+    state.files[task.id].state = 'PAUSED';
 
-    currentTask.taskInfo.state = 'PAUSED';
-
-    currentTask.task.pause();
+    getTaskById(task.id).then((downloadTask) => {
+      downloadTask && downloadTask.pause();
+    });
   }),
 
-  resumeDownloadAction: action((state: any, taskId: any) => {
-    const currentTask = state.files[taskId];
+  resumeDownloadAction: action((state: any, task: any) => {
+    state.files[task.id].state = 'DOWNLOADING';
 
-    currentTask.taskInfo.state = 'DOWNLOADING';
-
-    currentTask.task.resume();
+    getTaskById(task.id).then((downloadTask) => {
+      downloadTask && downloadTask.resume();
+    });
   }),
 
-  stopDownloadAction: action((state: any, taskId: any) => {
-    const currentTask = state.files[taskId];
+  stopDownloadAction: action((state: any, task: any) => {
+    delete state.files[task.id];
 
-    if (currentTask.taskInfo.state === 'DOWNLOADING') {
-      currentTask.task.stop();
-    }
+    getTaskById(task.id).then((downloadTask) => {
+      downloadTask && downloadTask.stop();
+    });
+  }),
 
-    delete state.files[taskId];
+  reset: action(async (state: any) => {
+    state.files = {};
   }),
 };

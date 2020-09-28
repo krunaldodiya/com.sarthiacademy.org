@@ -3,31 +3,13 @@ export const updateDownload = (task: any, downloadActions: any) => {
 
   return task
     .begin(() => {
-      updateDownloadAction({
-        task,
-        taskInfo: {
-          ...task,
-          percent: 0,
-        },
-      });
+      updateDownloadAction({...task, percent: 0});
     })
     .progress((percent: number) => {
-      updateDownloadAction({
-        task,
-        taskInfo: {
-          ...task,
-          percent,
-        },
-      });
+      updateDownloadAction({...task, percent});
     })
     .done(() => {
-      updateDownloadAction({
-        task,
-        taskInfo: {
-          ...task,
-          percent: 1,
-        },
-      });
+      updateDownloadAction({...task, percent: 1});
     })
     .error((error: any) => {
       console.log('Download canceled due to error: ', error);

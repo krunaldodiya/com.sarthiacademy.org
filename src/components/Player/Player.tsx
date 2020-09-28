@@ -98,10 +98,10 @@ const Player = (props: any) => {
   useEffect(() => {
     const getCachedVideoLink = async () => {
       const localProxyURL = await convertToProxyURL(selectedQuality.link);
+      const task = files[selectedQuality.id];
 
       const destination =
-        files[selectedQuality.id] &&
-        files[selectedQuality.id].task.state === 'DONE'
+        task && task.state === 'DONE'
           ? `${downloadPath}/${selectedQuality.id}.mp4`
           : localProxyURL;
 
