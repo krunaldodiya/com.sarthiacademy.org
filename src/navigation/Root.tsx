@@ -43,8 +43,6 @@ function RootStackNavigator(props: any) {
 
   const downloadActions: any = useStoreActions((actions) => actions.download);
 
-  // downloadActions.reset();
-
   useEffect(() => {
     RNBackgroundDownloader.checkForExistingDownloads().then((tasks: any) => {
       for (let task of tasks) {

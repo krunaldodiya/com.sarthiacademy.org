@@ -59,7 +59,7 @@ const DownloadModal = ({currentVideo}: any) => {
                 fontSize: 17,
                 textTransform: 'uppercase',
               }}>
-              okay
+              close
             </Text>
           </TouchableOpacity>
         </View>
