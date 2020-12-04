@@ -12,7 +12,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import YouTube from 'react-native-youtube';
 import {queryCache, useMutation, useQuery} from 'react-query';
@@ -21,6 +21,7 @@ import {authUserApi} from '../../api/authUserApi';
 import {getMessagesApi} from '../../api/getMessagesApi';
 import {sendMessageApi} from '../../api/sendMessageApi';
 import {echo} from '../../libs/echo';
+import ytdl from 'react-native-ytdl';
 
 const {width, height} = Dimensions.get('window');
 
@@ -34,6 +35,8 @@ export default function YTPlayer({route, navigation}: any) {
   });
 
   const [isFullScreen, setIsFullScreen] = useState(false);
+
+  const [link, setLink] = useState<any>();
 
   const player = useRef(null);
 
@@ -80,6 +83,14 @@ export default function YTPlayer({route, navigation}: any) {
       return toggleFullScreen(true);
     });
   }, [toggleFullScreen]);
+
+  useEffect(() => {
+    ytdl(`https://www.youtube.com/watch?v=${video.video_id}`).then(
+      (data: any) => {
+        setLink(data[0].url);
+      },
+    );
+  }, [video]);
 
   return (
     <>
@@ -214,12 +225,24 @@ const Chat = memo(({channel_id, updateMessages}: any) => {
           style={{
             flex: 1,
             borderWidth: 1,
-            borderColor: '#ddd',
+            borderColor: '#333',
+            borderRadius: 5,
+            padding: 5,
             paddingLeft: 10,
           }}
           onChangeText={(value: string) => setMessage(value)}
         />
-        <Button onPress={onSubmit} title="Send" />
+        <TouchableOpacity
+          onPress={onSubmit}
+          style={{
+            padding: 10,
+            borderWidth: 1,
+            borderColor: '#333',
+            borderRadius: 5,
+            marginLeft: 5,
+          }}>
+          <Text style={{textAlignVertical: 'center', color: '#333'}}>send</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

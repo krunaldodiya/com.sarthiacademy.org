@@ -2,6 +2,7 @@ import {useStoreActions} from 'easy-peasy';
 import moment from 'moment';
 import React, {memo} from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   SafeAreaView,
@@ -60,8 +61,15 @@ function MyCourses({navigation}: any) {
                     borderRadius: 5,
                   }}
                   onPress={() => {
-                    setSelectedCourseId(item.plan.course.id);
-                    navigation.push(screens.CourseTabs.name);
+                    if (
+                      item.status === 'Active' ||
+                      authUser.email === 'kunal.dodiya1@gmail.com'
+                    ) {
+                      setSelectedCourseId(item.plan.course.id);
+                      navigation.push(screens.CourseTabs.name);
+                    } else {
+                      Alert.alert('Oops', 'Your subscription has expired');
+                    }
                   }}>
                   <View>
                     <Image

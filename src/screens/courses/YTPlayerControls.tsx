@@ -4,19 +4,9 @@ import React, {memo} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import Slider from 'react-native-slider';
-import {screens} from '../../libs/screens';
 
-const PlayerControls = (props: any) => {
-  const {
-    navigation,
-    playerRef,
-    currentVideo,
-    nextVideo,
-    previousVideo,
-    chapter,
-    toggleFullScreen,
-    progress,
-  } = props;
+const YTPlayerControls = (props: any) => {
+  const {navigation, playerRef, toggleFullScreen, progress} = props;
 
   const secondsToHms = (d) => {
     return moment.utc(d * 1000).format('mm:ss');
@@ -24,10 +14,15 @@ const PlayerControls = (props: any) => {
 
   const {
     duration,
-    isPaused,
     isFinished,
+    speed,
+    quality,
+    showControls,
+    showOptions,
     isFullScreen,
     isBuffering,
+    isMuted,
+    isPaused,
     isSliding,
   } = useStoreState((state) => state.player);
 
@@ -53,20 +48,6 @@ const PlayerControls = (props: any) => {
           }}>
           <View style={{flexDirection: 'row'}}>
             <Icon
-              type="AntDesign"
-              name="stepbackward"
-              size={26}
-              color={previousVideo ? '#fff' : '#333'}
-              style={styles.icon}
-              onPress={() => {
-                previousVideo &&
-                  navigation.replace(screens.VideoPlayer.name, {
-                    video: previousVideo,
-                    chapter,
-                  });
-              }}
-            />
-            <Icon
               type="MaterialCommunityIcons"
               name="rewind-10"
               size={26}
@@ -85,14 +66,7 @@ const PlayerControls = (props: any) => {
                 color="#fff"
                 style={styles.icon}
                 onPress={() => {
-                  if (isFinished) {
-                    navigation.replace(screens.VideoPlayer.name, {
-                      video: currentVideo,
-                      chapter,
-                    });
-                  } else {
-                    setIsPaused(!isPaused);
-                  }
+                  //
                 }}
               />
             )}
@@ -104,21 +78,6 @@ const PlayerControls = (props: any) => {
               color="#fff"
               style={styles.icon}
               onPress={() => skip(10)}
-            />
-
-            <Icon
-              type="AntDesign"
-              name="stepforward"
-              size={26}
-              color={nextVideo ? '#fff' : '#333'}
-              style={styles.icon}
-              onPress={() => {
-                nextVideo &&
-                  navigation.replace(screens.VideoPlayer.name, {
-                    video: nextVideo,
-                    chapter,
-                  });
-              }}
             />
           </View>
         </View>
@@ -223,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(PlayerControls);
+export default memo(YTPlayerControls);

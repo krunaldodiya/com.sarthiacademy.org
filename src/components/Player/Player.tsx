@@ -8,15 +8,13 @@ import convertToProxyURL from 'react-native-video-cache';
 import {checkSimulator} from '../../libs/check';
 import {downloadPath} from '../../libs/vars';
 import PlayerControls from './PlayerControls';
-import PlayerOptions from './PlayerOptions';
-import PlayerOptionsModal from './PlayerOptionsModal';
 
 const {width, height} = Dimensions.get('window');
 
 const Player = (props: any) => {
   const {
     navigation,
-    videoQuality,
+    selectedQuality,
     currentVideo,
     nextVideo,
     previousVideo,
@@ -43,9 +41,7 @@ const Player = (props: any) => {
 
   const {
     speed,
-    quality,
     showControls,
-    showOptions,
     isFullScreen,
     isBuffering,
     isMuted,
@@ -54,8 +50,6 @@ const Player = (props: any) => {
   }: any = useStoreState((state) => state.player);
 
   const {files}: any = useStoreState((state) => state.download);
-
-  const selectedQuality = quality ? quality : videoQuality;
 
   const toggleFullScreen = useCallback(
     (backButtonPressed: boolean) => {
@@ -146,84 +140,62 @@ const Player = (props: any) => {
   }
 
   return (
-    <View style={{flex: 1}}>
-      <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
-        <Video
-          ref={playerRef}
-          rate={parseFloat(speed)}
-          muted={isMuted}
-          paused={isPaused}
-          controls={false}
-          repeat={false}
-          posterResizeMode="cover"
-          resizeMode="cover"
-          style={{
-            width: isFullScreen ? '100%' : width,
-            height: isFullScreen ? width : (width * 9) / 16,
-          }}
-          source={{uri: link}}
-          onProgress={(data: any) => {
-            progress.current = data.currentTime;
+    <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
+      <Video
+        ref={playerRef}
+        rate={parseFloat(speed)}
+        muted={isMuted}
+        paused={isPaused}
+        controls={false}
+        repeat={false}
+        posterResizeMode="cover"
+        resizeMode="cover"
+        style={{
+          width: isFullScreen ? '100%' : width,
+          height: isFullScreen ? width : (width * 9) / 16,
+        }}
+        source={{uri: link}}
+        onProgress={(data: any) => {
+          progress.current = data.currentTime;
 
-            if (isBuffering) {
-              setIsBuffering(false);
-            }
-          }}
-          onLoadStart={() => {
-            isSliding === false && setIsBuffering(true);
-          }}
-          onLoad={(data: any) => {
-            progress.current = data.currentTime;
-
-            setDuration(data.duration);
-
+          if (isBuffering) {
             setIsBuffering(false);
-          }}
-          onEnd={() => {
-            setIsFinished(true);
-          }}
-          onSeek={() => {
-            isSliding === false && setIsBuffering(true);
-          }}
-          onReadyForDisplay={() => {
-            setIsBuffering(false);
-          }}
-        />
+          }
+        }}
+        onLoadStart={() => {
+          isSliding === false && setIsBuffering(true);
+        }}
+        onLoad={(data: any) => {
+          progress.current = data.currentTime;
 
-        {(isBuffering || showControls) && (
-          <PlayerControls
-            {...props}
-            currentVideo={currentVideo}
-            nextVideo={nextVideo}
-            previousVideo={previousVideo}
-            chapter={chapter}
-            playerRef={playerRef}
-            toggleFullScreen={toggleFullScreen}
-            progress={progress.current}
-          />
-        )}
-      </TouchableOpacity>
+          setDuration(data.duration);
 
-      {!isFullScreen && (
-        <PlayerOptions
+          setIsBuffering(false);
+        }}
+        onEnd={() => {
+          setIsFinished(true);
+        }}
+        onSeek={() => {
+          isSliding === false && setIsBuffering(true);
+        }}
+        onReadyForDisplay={() => {
+          setIsBuffering(false);
+        }}
+      />
+
+      {(isBuffering || showControls) && (
+        <PlayerControls
           {...props}
-          chapter={chapter}
           currentVideo={currentVideo}
           nextVideo={nextVideo}
           previousVideo={previousVideo}
-        />
-      )}
-
-      {showOptions !== null && (
-        <PlayerOptionsModal
-          {...props}
           chapter={chapter}
-          currentVideo={currentVideo}
-          selectedQuality={selectedQuality}
-          rates={['0.25', '0.50', '1.00', '1.25', '1.50', '2.00']}
+          playerRef={playerRef}
+          toggleFullScreen={toggleFullScreen}
+          progress={progress.current}
         />
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
