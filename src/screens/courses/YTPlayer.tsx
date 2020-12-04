@@ -85,11 +85,15 @@ export default function YTPlayer({route, navigation}: any) {
   }, [toggleFullScreen]);
 
   useEffect(() => {
-    ytdl(`https://www.youtube.com/watch?v=${video.video_id}`).then(
-      (data: any) => {
-        setLink(data[0].url);
-      },
-    );
+    const youtube_url = `https://www.youtube.com/watch?v=${video.video_id}`;
+
+    ytdl(youtube_url)
+      .then((data: any) => {
+        console.log(data, 'data');
+
+        // setLink(data[0].url);
+      })
+      .catch((error) => console.log(error));
   }, [video]);
 
   return (
