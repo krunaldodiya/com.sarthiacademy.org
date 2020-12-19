@@ -54,7 +54,7 @@ export default function Live({route, navigation}: any) {
             title="test"
             onPress={() => {
               return navigation.push(screens.YTPlayer.name, {
-                video: {video_id: 'ojW_KzOCHpg'},
+                video: {video_id: 'XLLVsCHQZEI'},
               });
             }}
           />

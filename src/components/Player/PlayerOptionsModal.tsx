@@ -5,7 +5,7 @@ import DownloadModal from './DownloadModal';
 import QualityModal from './QualityModal';
 import SpeedModal from './SpeedModal';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const PlayerOptionsModal = (props: any) => {
   const {showOptions}: any = useStoreState((state) => state.player);

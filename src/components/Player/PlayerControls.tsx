@@ -4,18 +4,15 @@ import React, {memo} from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import Slider from 'react-native-slider';
-import {screens} from '../../libs/screens';
 
 const PlayerControls = (props: any) => {
   const {
-    navigation,
     playerRef,
-    currentVideo,
-    nextVideo,
-    previousVideo,
-    chapter,
+    onFinish,
     toggleFullScreen,
     progress,
+    onPrevious,
+    onNext,
   } = props;
 
   const secondsToHms = (d) => {
@@ -28,7 +25,6 @@ const PlayerControls = (props: any) => {
     isFinished,
     isFullScreen,
     isBuffering,
-    isSliding,
   } = useStoreState((state) => state.player);
 
   const {setIsPaused, setShowOptions, setIsSliding} = useStoreActions(
@@ -52,20 +48,16 @@ const PlayerControls = (props: any) => {
             justifyContent: 'center',
           }}>
           <View style={{flexDirection: 'row'}}>
-            <Icon
-              type="AntDesign"
-              name="stepbackward"
-              size={26}
-              color={previousVideo ? '#fff' : '#333'}
-              style={styles.icon}
-              onPress={() => {
-                previousVideo &&
-                  navigation.replace(screens.VideoPlayer.name, {
-                    video: previousVideo,
-                    chapter,
-                  });
-              }}
-            />
+            {onPrevious && (
+              <Icon
+                type="AntDesign"
+                name="stepbackward"
+                size={26}
+                color={onPrevious.hasMore ? '#fff' : '#333'}
+                style={styles.icon}
+                onPress={onPrevious.onPress}
+              />
+            )}
             <Icon
               type="MaterialCommunityIcons"
               name="rewind-10"
@@ -84,16 +76,7 @@ const PlayerControls = (props: any) => {
                 size={36}
                 color="#fff"
                 style={styles.icon}
-                onPress={() => {
-                  if (isFinished) {
-                    navigation.replace(screens.VideoPlayer.name, {
-                      video: currentVideo,
-                      chapter,
-                    });
-                  } else {
-                    setIsPaused(!isPaused);
-                  }
-                }}
+                onPress={onFinish}
               />
             )}
 
@@ -106,20 +89,16 @@ const PlayerControls = (props: any) => {
               onPress={() => skip(10)}
             />
 
-            <Icon
-              type="AntDesign"
-              name="stepforward"
-              size={26}
-              color={nextVideo ? '#fff' : '#333'}
-              style={styles.icon}
-              onPress={() => {
-                nextVideo &&
-                  navigation.replace(screens.VideoPlayer.name, {
-                    video: nextVideo,
-                    chapter,
-                  });
-              }}
-            />
+            {onNext && (
+              <Icon
+                type="AntDesign"
+                name="stepforward"
+                size={26}
+                color={onNext.hasMore ? '#fff' : '#333'}
+                style={styles.icon}
+                onPress={onNext.onPress}
+              />
+            )}
           </View>
         </View>
 

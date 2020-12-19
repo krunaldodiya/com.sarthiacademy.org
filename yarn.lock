@@ -2284,6 +2284,14 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-native-video@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@types/react-native-video/-/react-native-video-5.0.3.tgz#21aef3c087d498d75cb4631e8197d2b4b913170c"
+  integrity sha512-5GbhErfUvilPsZNaSCj6+fOM1UyBMN4QYi8Yb0E4tGzXdnGN4B9ILGe7tivys+EXUmgiWWcXlxQdpaDcKZzlqg==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*":
   version "0.63.37"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.63.37.tgz#c43df90c9d3cc082a97a49a53e989de26cb8ab45"
@@ -10303,10 +10311,10 @@ react-native-youtube@^2.0.1:
   dependencies:
     prop-types "^15.5.0"
 
-react-native-ytdl@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-ytdl/-/react-native-ytdl-4.1.2.tgz#1622669748ff495fbd7e869e2f599cd3282bf681"
-  integrity sha512-iUTUeoHMm78Gw12oys42LIPT9kuTIDLOJA+vstS+odaJqyyFyKLV2tbPtDLZa+0qQGuZcNSrFBVk0SEAvyuBPg==
+react-native-ytdl@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-ytdl/-/react-native-ytdl-4.2.0.tgz#0f97648fc40b946d3cdc86c44dbc3e0e33eb700a"
+  integrity sha512-9WeftnlCSwZ36Blv1JvjKZHUINtU6qLQocQQ8WFQHpWFSVIyajQiI2/ODeFEBbxEkXOiSpBE4wS0JnAD+scxrA==
   dependencies:
     querystring "^0.2.0"
     url "~0.10.1"

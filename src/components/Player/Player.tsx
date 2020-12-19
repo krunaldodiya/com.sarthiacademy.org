@@ -4,31 +4,19 @@ import {BackHandler, Dimensions, NativeModules, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import Video from 'react-native-video';
-import convertToProxyURL from 'react-native-video-cache';
 import {checkSimulator} from '../../libs/check';
-import {downloadPath} from '../../libs/vars';
 import PlayerControls from './PlayerControls';
 
-const {width, height} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const Player = (props: any) => {
-  const {
-    navigation,
-    selectedQuality,
-    currentVideo,
-    nextVideo,
-    previousVideo,
-    chapter,
-    progress,
-  } = props;
+  const {navigation, link, onFinish, progress, onPrevious, onNext} = props;
 
   const playerRef = useRef(null);
 
   const [timerId, setTimerId] = useState<any>();
 
   const [isSimEmu, setIsSimEmu] = useState<any>(null);
-
-  const [link, setLink] = useState<any>('');
 
   const {
     resetPlayer,
@@ -48,8 +36,6 @@ const Player = (props: any) => {
     isPaused,
     isSliding,
   }: any = useStoreState((state) => state.player);
-
-  const {files}: any = useStoreState((state) => state.download);
 
   const toggleFullScreen = useCallback(
     (backButtonPressed: boolean) => {
@@ -89,22 +75,6 @@ const Player = (props: any) => {
     });
   }, []);
 
-  useEffect(() => {
-    const getCachedVideoLink = async () => {
-      const localProxyURL = await convertToProxyURL(selectedQuality.link);
-      const task = files[selectedQuality.id];
-
-      const destination =
-        task && task.state === 'DONE'
-          ? `${downloadPath}/${selectedQuality.id}.mp4`
-          : localProxyURL;
-
-      setLink(destination);
-    };
-
-    getCachedVideoLink();
-  }, [selectedQuality, files]);
-
   const manageOverlay = () => {
     if (showControls) {
       return;
@@ -135,7 +105,7 @@ const Player = (props: any) => {
     );
   }
 
-  if (!link.length) {
+  if (!link) {
     return null;
   }
 
@@ -152,7 +122,7 @@ const Player = (props: any) => {
         resizeMode="cover"
         style={{
           width: isFullScreen ? '100%' : width,
-          height: isFullScreen ? width : (width * 9) / 16,
+          height: isFullScreen ? '100%' : (width * 9) / 16,
         }}
         source={{uri: link}}
         onProgress={(data: any) => {
@@ -186,13 +156,12 @@ const Player = (props: any) => {
       {(isBuffering || showControls) && (
         <PlayerControls
           {...props}
-          currentVideo={currentVideo}
-          nextVideo={nextVideo}
-          previousVideo={previousVideo}
-          chapter={chapter}
+          onFinish={onFinish}
           playerRef={playerRef}
           toggleFullScreen={toggleFullScreen}
           progress={progress.current}
+          onPrevious={onPrevious}
+          onNext={onNext}
         />
       )}
     </TouchableOpacity>
