@@ -70,7 +70,7 @@ export default function Downloads({navigation}: any) {
                     }
 
                     navigation.push(screens.VideoPlayer.name, {
-                      quality: item,
+                      selectedQuality: item,
                       video: item.video,
                       chapter: item.video.chapter,
                     });

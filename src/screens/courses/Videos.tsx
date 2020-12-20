@@ -42,7 +42,7 @@ function Videos({navigation, route}: any) {
               <TouchableOpacity
                 onPress={() => {
                   navigation.push(screens.VideoPlayer.name, {
-                    quality: item.qualities[0],
+                    selectedQuality: item.qualities[0],
                     video: item,
                     chapter,
                   });

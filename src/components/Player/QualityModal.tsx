@@ -1,11 +1,13 @@
-import {useStoreActions} from 'easy-peasy';
+import {useStoreActions, useStoreState} from 'easy-peasy';
 import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useTheme} from 'styled-components';
 
-const QualityModal = ({selectedQuality, currentVideo}: any) => {
+const QualityModal = ({videoQualities}: any) => {
   const theme = useTheme();
+
+  const {quality} = useStoreState((state) => state.player);
 
   const {setQuality, setShowOptions}: any = useStoreActions(
     (actions) => actions.player,
@@ -40,25 +42,25 @@ const QualityModal = ({selectedQuality, currentVideo}: any) => {
       </View>
 
       <View style={{padding: 5}}>
-        {currentVideo.qualities.map((quality: any) => {
+        {videoQualities.map((videoQuality: any) => {
           return (
-            <View key={quality.id}>
+            <View key={videoQuality.id}>
               <TouchableOpacity
                 style={{paddingHorizontal: 5, paddingTop: 10, paddingBottom: 5}}
                 onPress={() => {
-                  setQuality(quality);
+                  setQuality(videoQuality);
                   setShowOptions(null);
                 }}>
                 <Text
                   style={{
-                    color: selectedQuality.id === quality.id ? '#f00' : '#000',
+                    color: quality.id === videoQuality.id ? '#f00' : '#000',
                     fontFamily:
-                      selectedQuality.id === quality.id
+                      quality.id === videoQuality.id
                         ? theme.fontFamily.QuicksandBold
                         : theme.fontFamily.QuicksandRegular,
                     fontSize: 18,
                   }}>
-                  {quality.quality}
+                  {videoQuality.quality}
                 </Text>
               </TouchableOpacity>
             </View>
