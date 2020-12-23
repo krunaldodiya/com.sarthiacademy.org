@@ -17,8 +17,6 @@ const VideoPlayer = ({route, navigation}: any) => {
 
   const [link, setLink] = useState<any>(null);
 
-  const progress = useRef(0);
-
   const {currentVideo} = getVideos(video, chapter.videos);
 
   const {
@@ -67,21 +65,7 @@ const VideoPlayer = ({route, navigation}: any) => {
           backgroundColor: theme.backgroundColor.primary,
         }}>
         <View style={{flex: 1}}>
-          <Player
-            navigation={navigation}
-            link={link}
-            onFinish={() => {
-              if (isFinished) {
-                navigation.replace(screens.VideoPlayer.name, {
-                  video: currentVideo,
-                  chapter,
-                });
-              } else {
-                setIsPaused(!isPaused);
-              }
-            }}
-            progress={progress}
-          />
+          <Player navigation={navigation} live={false} link={link} />
 
           {!isFullScreen && <PlayerOptions />}
 

@@ -8,11 +8,11 @@ import Slider from 'react-native-slider';
 const PlayerControls = (props: any) => {
   const {
     playerRef,
-    onFinish,
     toggleFullScreen,
     progress,
     onPrevious,
     onNext,
+    live,
   } = props;
 
   const secondsToHms = (d) => {
@@ -40,8 +40,6 @@ const PlayerControls = (props: any) => {
   return (
     <View style={styles.overlay}>
       <View style={{flex: 1}}>
-        <View style={{flex: 1}} />
-
         <View
           style={{
             flex: 5,
@@ -76,7 +74,9 @@ const PlayerControls = (props: any) => {
                 size={36}
                 color="#fff"
                 style={styles.icon}
-                onPress={onFinish}
+                onPress={() => {
+                  setIsPaused(!isPaused);
+                }}
               />
             )}
 
@@ -122,11 +122,11 @@ const PlayerControls = (props: any) => {
             <View style={{flex: 1}}>
               <Slider
                 minimumValue={0}
-                maximumValue={duration}
+                maximumValue={live ? progress : duration}
                 value={progress}
                 minimumTrackTintColor="#fff"
                 maximumTrackTintColor="#bbb"
-                onValueChange={(data) => {
+                onValueChange={(data: any) => {
                   playerRef.current.seek(data);
                 }}
                 thumbTintColor="white"
@@ -141,29 +141,33 @@ const PlayerControls = (props: any) => {
                 alignItems: 'center',
                 marginHorizontal: 3,
               }}>
-              <Icon
-                type="MaterialCommunityIcons"
-                name="quality-high"
-                size={26}
-                color="#fff"
-                onPress={() => setShowOptions('quality')}
-                style={{
-                  marginLeft: 3,
-                  marginRight: 3,
-                }}
-              />
+              {!live && (
+                <Icon
+                  type="MaterialCommunityIcons"
+                  name="quality-high"
+                  size={26}
+                  color="#fff"
+                  onPress={() => setShowOptions('quality')}
+                  style={{
+                    marginLeft: 3,
+                    marginRight: 3,
+                  }}
+                />
+              )}
 
-              <Icon
-                type="MaterialCommunityIcons"
-                name="play-speed"
-                size={26}
-                color="#fff"
-                onPress={() => setShowOptions('speed')}
-                style={{
-                  marginLeft: 3,
-                  marginRight: 3,
-                }}
-              />
+              {!live && (
+                <Icon
+                  type="MaterialCommunityIcons"
+                  name="play-speed"
+                  size={26}
+                  color="#fff"
+                  onPress={() => setShowOptions('speed')}
+                  style={{
+                    marginLeft: 3,
+                    marginRight: 3,
+                  }}
+                />
+              )}
 
               <Icon
                 type="MaterialCommunityIcons"

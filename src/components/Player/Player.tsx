@@ -10,13 +10,15 @@ import PlayerControls from './PlayerControls';
 const {width} = Dimensions.get('window');
 
 const Player = (props: any) => {
-  const {navigation, link, onFinish, progress, onPrevious, onNext} = props;
+  const {live, navigation, link, onFinish, onPrevious, onNext} = props;
 
-  const playerRef = useRef(null);
+  const playerRef = useRef<any>(null);
 
   const [timerId, setTimerId] = useState<any>();
 
   const [isSimEmu, setIsSimEmu] = useState<any>(null);
+
+  const [progress, setProgress] = useState<any>(0);
 
   const {
     resetPlayer,
@@ -28,7 +30,6 @@ const Player = (props: any) => {
   }: any = useStoreActions((actions) => actions.player);
 
   const {
-    speed,
     showControls,
     isFullScreen,
     isBuffering,
@@ -113,7 +114,6 @@ const Player = (props: any) => {
     <TouchableOpacity onPress={manageOverlay} activeOpacity={0.8}>
       <Video
         ref={playerRef}
-        rate={parseFloat(speed)}
         muted={isMuted}
         paused={isPaused}
         controls={false}
@@ -126,7 +126,7 @@ const Player = (props: any) => {
         }}
         source={{uri: link}}
         onProgress={(data: any) => {
-          progress.current = data.currentTime;
+          setProgress(data.currentTime);
 
           if (isBuffering) {
             setIsBuffering(false);
@@ -136,10 +136,8 @@ const Player = (props: any) => {
           isSliding === false && setIsBuffering(true);
         }}
         onLoad={(data: any) => {
-          progress.current = data.currentTime;
-
+          setProgress(data.currentTime);
           setDuration(data.duration);
-
           setIsBuffering(false);
         }}
         onEnd={() => {
@@ -159,9 +157,10 @@ const Player = (props: any) => {
           onFinish={onFinish}
           playerRef={playerRef}
           toggleFullScreen={toggleFullScreen}
-          progress={progress.current}
+          progress={progress}
           onPrevious={onPrevious}
           onNext={onNext}
+          live={live}
         />
       )}
     </TouchableOpacity>

@@ -61,8 +61,6 @@ export default function YTPlayer({route, navigation}: any) {
       });
   }, [video]);
 
-  const progress = useRef(0);
-
   return (
     <>
       <StatusBar
@@ -80,9 +78,9 @@ export default function YTPlayer({route, navigation}: any) {
         <View style={{flex: 1}}>
           <Player
             navigation={navigation}
+            live={true}
             link={link}
             onFinish={() => null}
-            progress={progress}
           />
 
           {isFullScreen === false && (
