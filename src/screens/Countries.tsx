@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {ActivityIndicator, Alert, Text, View} from 'react-native';
 import {useQuery} from 'react-query';
-import {axiosInstance} from 'src/libs/httpClient';
+import {axiosInstance} from '../libs/httpClient';
 
 export const Countries = memo(() => {
   const {data: countries, status} = useQuery(
