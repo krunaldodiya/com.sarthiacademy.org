@@ -11,7 +11,6 @@ import {authUserApi} from '../api/authUserApi';
 import {updateDownload} from '../libs/download';
 import {getMediaFile} from '../libs/media';
 import {screens} from '../libs/screens';
-import {Countries} from '../screens/Countries';
 import Chapters from '../screens/courses/Chapters';
 import StartTest from '../screens/courses/StartTest';
 import VideoPlayer from '../screens/courses/VideoPlayer';
@@ -23,14 +22,14 @@ import Feedback from '../screens/Feedback';
 import InvalidDevice from '../screens/InvalidDevice';
 import NotificationInfo from '../screens/NotificationInfo';
 import Notifications from '../screens/Notifications';
-// import RequestOtp from '../screens/RequestOtp';
+import RequestOtp from '../screens/RequestOtp';
 import SubscribeCourse from '../screens/SubscribeCourse';
 import VerifyOtp from '../screens/VerifyOtp';
 import CourseTabs from './CourseTabs';
 import HomeTabNavigator from './HomeTabNavigator';
 import ViewTestNavigator from './ViewTestNavigator';
 
-function RootStackNavigator(props: any) {
+function RootStackNavigator() {
   const theme = useTheme();
 
   const RootStack = createStackNavigator();
@@ -63,15 +62,9 @@ function RootStackNavigator(props: any) {
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName={initialScreen}>
-        {/* <RootStack.Screen
-          name={screens.RequestOtp.name}
-          component={RequestOtp}
-          options={{header: () => null}}
-        /> */}
-
         <RootStack.Screen
           name={screens.RequestOtp.name}
-          component={Countries}
+          component={RequestOtp}
           options={{header: () => null}}
         />
 
