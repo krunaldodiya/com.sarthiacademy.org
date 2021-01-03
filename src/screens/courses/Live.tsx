@@ -7,7 +7,6 @@ import {
   StatusBar,
   View,
   Image,
-  Button,
 } from 'react-native';
 import Icon from 'react-native-dynamic-vector-icons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -50,14 +49,6 @@ export default function Live({route, navigation}: any) {
           backgroundColor: theme.backgroundColor.primary,
         }}>
         <View style={{flex: 1}}>
-          <Button
-            title="test"
-            onPress={() => {
-              return navigation.push(screens.YTPlayer.name, {
-                video: {video_id: '-LFUpB59xS8'},
-              });
-            }}
-          />
           <FlatList
             style={{padding: 5}}
             keyExtractor={(_, index) => index.toString()}
