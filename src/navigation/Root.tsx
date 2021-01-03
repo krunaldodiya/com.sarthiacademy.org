@@ -34,7 +34,7 @@ function RootStackNavigator(props: any) {
 
   const RootStack = createStackNavigator();
 
-  const {data: authUser}: any = useQuery('auth_user', authUserApi, {
+  const {data: authUser, status}: any = useQuery('auth_user', authUserApi, {
     retry: false,
   });
 
@@ -54,6 +54,10 @@ function RootStackNavigator(props: any) {
       }
     });
   }, [downloadActions, files]);
+
+  if (status === 'loading') {
+    return null;
+  }
 
   return (
     <NavigationContainer>
@@ -102,7 +106,7 @@ function RootStackNavigator(props: any) {
                   onPress={() => navigation.push(screens.EditProfile.name)}>
                   <Image
                     style={{width: 25, height: 25, borderRadius: 25}}
-                    source={{uri: getMediaFile('avatar', authUser.avatar)}}
+                    source={{uri: getMediaFile('avatar', authUser?.avatar)}}
                   />
                 </TouchableOpacity>
               ),
