@@ -11,7 +11,7 @@ export const Countries = memo(() => {
       setLoading(true);
       try {
         const res = await axiosInstance.get(
-          'https://api.sarthiacademy.in/api/countries',
+          'https://demo.sarthiacademy.in/api/countries',
         );
 
         setCountries(res.data.countries);
