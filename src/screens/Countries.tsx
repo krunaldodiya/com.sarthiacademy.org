@@ -1,35 +1,41 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {ActivityIndicator, Alert, Text, View} from 'react-native';
-import {useQuery} from 'react-query';
 import {axiosInstance} from '../libs/httpClient';
 
 export const Countries = memo(() => {
-  const {data: countries, status} = useQuery(
-    'countries',
-    async () => {
-      const res = await axiosInstance.get(
-        'https://api.sarthiacademy.in/api/countries',
-      );
+  const [countries, setCountries] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-      return res.data.countries;
-    },
-    {
-      onError: (error) => {
+  useEffect(() => {
+    const loadCountries = async () => {
+      setLoading(true);
+      try {
+        const res = await axiosInstance.get(
+          'https://api.sarthiacademy.in/api/countries',
+        );
+
+        setCountries(res.data.countries);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+
         Alert.alert('error', JSON.stringify(error));
-      },
-    },
-  );
+      }
+    };
 
-  if (status === 'loading') {
+    loadCountries();
+  }, []);
+
+  if (loading) {
     return <ActivityIndicator />;
   }
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       {countries.map((country: any) => {
         return (
-          <View>
-            <Text>{country.name}</Text>
+          <View style={{padding: 10, backgroundColor: '#fff'}}>
+            <Text style={{color: '#000'}}>{country.name}</Text>
           </View>
         );
       })}
