@@ -1,4 +1,4 @@
-import {yupResolver} from '@hookform/resolvers';
+import {yupResolver} from '@hookform/resolvers/yup';
 import {useStoreActions} from 'easy-peasy';
 import React, {memo} from 'react';
 import {Controller, useForm} from 'react-hook-form';

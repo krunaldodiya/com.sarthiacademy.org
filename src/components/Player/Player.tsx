@@ -10,7 +10,7 @@ import PlayerControls from './PlayerControls';
 const {width} = Dimensions.get('window');
 
 const Player = (props: any) => {
-  const {live, navigation, link, onFinish, onPrevious, onNext} = props;
+  const {navigation, link, onFinish, onPrevious, onNext} = props;
 
   const playerRef = useRef<any>(null);
 
@@ -19,12 +19,12 @@ const Player = (props: any) => {
   const [isSimEmu, setIsSimEmu] = useState<any>(null);
 
   const [progress, setProgress] = useState<any>(0);
+  const [duration, setDuration] = useState<any>(0);
 
   const {
     resetPlayer,
     setIsBuffering,
     setShowControls,
-    setDuration,
     setIsFinished,
     setIsFullScreen,
   }: any = useStoreActions((actions) => actions.player);
@@ -127,7 +127,6 @@ const Player = (props: any) => {
         source={{uri: link}}
         onProgress={(data: any) => {
           setProgress(data.currentTime);
-
           if (isBuffering) {
             setIsBuffering(false);
           }
@@ -158,9 +157,10 @@ const Player = (props: any) => {
           playerRef={playerRef}
           toggleFullScreen={toggleFullScreen}
           progress={progress}
+          duration={duration}
           onPrevious={onPrevious}
           onNext={onNext}
-          live={live}
+          live={duration < 0}
         />
       )}
     </TouchableOpacity>

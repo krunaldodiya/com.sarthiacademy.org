@@ -1,4 +1,4 @@
-import {yupResolver} from '@hookform/resolvers';
+import {yupResolver} from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-community/async-storage';
 import messaging from '@react-native-firebase/messaging';
 import {useStoreActions, useStoreState} from 'easy-peasy';

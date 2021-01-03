@@ -1,6 +1,6 @@
 import {useStoreState} from 'easy-peasy';
 import moment from 'moment';
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -40,8 +40,8 @@ export default function YTPlayer({route, navigation}: any) {
   useEffect(() => {
     echo
       .channel(`channel-${video.video_id}`)
-      .listen('MessageReceived', ({message}: any) => {
-        if (message.sender_id !== authUser.id) {
+      .listen('MessageReceived', (data: any) => {
+        if (data.message && data.message.sender_id !== authUser.id) {
           updateMessages();
         }
       });
@@ -52,11 +52,9 @@ export default function YTPlayer({route, navigation}: any) {
 
     ytdl(youtube_url)
       .then((data: any) => {
-        console.log(data, 'data');
-
         setLink(data[0].url);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.log(error, 'error');
       });
   }, [video]);
@@ -76,12 +74,7 @@ export default function YTPlayer({route, navigation}: any) {
           backgroundColor: theme.backgroundColor.primary,
         }}>
         <View style={{flex: 1}}>
-          <Player
-            navigation={navigation}
-            live={true}
-            link={link}
-            onFinish={() => null}
-          />
+          <Player navigation={navigation} link={link} onFinish={() => null} />
 
           {isFullScreen === false && (
             <Chat channel_id={video.video_id} updateMessages={updateMessages} />

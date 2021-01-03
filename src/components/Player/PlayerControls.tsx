@@ -10,6 +10,7 @@ const PlayerControls = (props: any) => {
     playerRef,
     toggleFullScreen,
     progress,
+    duration,
     onPrevious,
     onNext,
     live,
@@ -19,13 +20,9 @@ const PlayerControls = (props: any) => {
     return moment.utc(d * 1000).format('mm:ss');
   };
 
-  const {
-    duration,
-    isPaused,
-    isFinished,
-    isFullScreen,
-    isBuffering,
-  } = useStoreState((state) => state.player);
+  const {isPaused, isFinished, isFullScreen, isBuffering} = useStoreState(
+    (state) => state.player,
+  );
 
   const {setIsPaused, setShowOptions, setIsSliding} = useStoreActions(
     (actions) => actions.player,
@@ -56,14 +53,16 @@ const PlayerControls = (props: any) => {
                 onPress={onPrevious.onPress}
               />
             )}
-            <Icon
-              type="MaterialCommunityIcons"
-              name="rewind-10"
-              size={26}
-              color="#fff"
-              style={styles.icon}
-              onPress={() => skip(-10)}
-            />
+            {!live && (
+              <Icon
+                type="MaterialCommunityIcons"
+                name="rewind-10"
+                size={26}
+                color="#fff"
+                style={styles.icon}
+                onPress={() => skip(-10)}
+              />
+            )}
 
             {isBuffering ? (
               <ActivityIndicator color="#fff" size="large" />
@@ -80,14 +79,16 @@ const PlayerControls = (props: any) => {
               />
             )}
 
-            <Icon
-              type="MaterialCommunityIcons"
-              name="fast-forward-10"
-              size={26}
-              color="#fff"
-              style={styles.icon}
-              onPress={() => skip(10)}
-            />
+            {!live && (
+              <Icon
+                type="MaterialCommunityIcons"
+                name="fast-forward-10"
+                size={26}
+                color="#fff"
+                style={styles.icon}
+                onPress={() => skip(10)}
+              />
+            )}
 
             {onNext && (
               <Icon

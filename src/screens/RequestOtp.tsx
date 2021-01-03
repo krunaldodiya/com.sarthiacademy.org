@@ -1,5 +1,5 @@
-import {yupResolver} from '@hookform/resolvers';
-import React, {memo} from 'react';
+import {yupResolver} from '@hookform/resolvers/yup';
+import React, {memo, useCallback} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {ActivityIndicator, SafeAreaView, StatusBar} from 'react-native';
 import {useMutation} from 'react-query';
@@ -27,30 +27,33 @@ function RequestOtp({navigation}: any) {
 
   const [requestOtp, {status}] = useMutation(requestOtpApi);
 
-  const onSubmit = async (credentials) => {
-    const {mobile} = credentials;
+  const onSubmit = useCallback(
+    async (credentials) => {
+      const {mobile} = credentials;
 
-    requestOtp(
-      {mobile},
-      {
-        onSuccess: async (data) => {
-          navigation.replace(screens.VerifyOtp.name, {mobile});
-        },
-        onError: (error) => {
-          if (error.response.status === 422) {
-            const validationErrors = error.response.data.errors;
-            Object.keys(validationErrors).forEach((key: string) => {
-              setError(key, {
-                message: validationErrors[key][0],
-                type: 'manual',
+      requestOtp(
+        {mobile},
+        {
+          onSuccess: async (data) => {
+            navigation.replace(screens.VerifyOtp.name, {mobile});
+          },
+          onError: (error) => {
+            if (error.response.status === 422) {
+              const validationErrors = error.response.data.errors;
+              Object.keys(validationErrors).forEach((key: string) => {
+                setError(key, {
+                  message: validationErrors[key][0],
+                  type: 'manual',
+                });
               });
-            });
-          }
+            }
+          },
+          throwOnError: true,
         },
-        throwOnError: true,
-      },
-    );
-  };
+      );
+    },
+    [navigation, requestOtp, setError],
+  );
 
   return (
     <>
