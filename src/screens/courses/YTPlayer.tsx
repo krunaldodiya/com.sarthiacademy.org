@@ -18,7 +18,7 @@ import {authUserApi} from '../../api/authUserApi';
 import {getMessagesApi} from '../../api/getMessagesApi';
 import {sendMessageApi} from '../../api/sendMessageApi';
 import Player from '../../components/Player/Player';
-import {echo} from '../../libs/echo';
+// import {echo} from '../../libs/echo';
 
 export default function YTPlayer({route, navigation}: any) {
   const {video} = route.params;
@@ -37,15 +37,15 @@ export default function YTPlayer({route, navigation}: any) {
     queryCache.invalidateQueries(['getMessages', video.video_id]);
   }, [video.video_id]);
 
-  useEffect(() => {
-    echo
-      .channel(`channel-${video.video_id}`)
-      .listen('MessageReceived', (data: any) => {
-        if (data.message && data.message.sender_id !== authUser.id) {
-          updateMessages();
-        }
-      });
-  }, [video.video_id, authUser, updateMessages]);
+  // useEffect(() => {
+  //   echo
+  //     .channel(`channel-${video.video_id}`)
+  //     .listen('MessageReceived', (data: any) => {
+  //       if (data.message && data.message.sender_id !== authUser.id) {
+  //         updateMessages();
+  //       }
+  //     });
+  // }, [video.video_id, authUser, updateMessages]);
 
   useEffect(() => {
     const youtube_url = `https://www.youtube.com/watch?v=${video.video_id}`;

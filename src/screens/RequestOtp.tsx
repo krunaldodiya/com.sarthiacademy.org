@@ -1,5 +1,5 @@
 import {yupResolver} from '@hookform/resolvers/yup';
-import React, {memo, useCallback} from 'react';
+import React, {memo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {ActivityIndicator, SafeAreaView, StatusBar} from 'react-native';
 import {useMutation} from 'react-query';
@@ -23,37 +23,37 @@ function RequestOtp({navigation}: any) {
   const theme: any = useTheme();
   const {control, handleSubmit, setError, errors} = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      mobile: '',
+    },
   });
 
   const [requestOtp, {status}] = useMutation(requestOtpApi);
 
-  const onSubmit = useCallback(
-    async (credentials) => {
-      const {mobile} = credentials;
+  const onSubmit = async (credentials: any) => {
+    const {mobile} = credentials;
 
-      requestOtp(
-        {mobile},
-        {
-          onSuccess: async (data) => {
-            navigation.replace(screens.VerifyOtp.name, {mobile});
-          },
-          onError: (error) => {
-            if (error.response.status === 422) {
-              const validationErrors = error.response.data.errors;
-              Object.keys(validationErrors).forEach((key: string) => {
-                setError(key, {
-                  message: validationErrors[key][0],
-                  type: 'manual',
-                });
-              });
-            }
-          },
-          throwOnError: true,
+    requestOtp(
+      {mobile},
+      {
+        onSuccess: async () => {
+          navigation.replace(screens.VerifyOtp.name, {mobile});
         },
-      );
-    },
-    [navigation, requestOtp, setError],
-  );
+        onError: (error: any) => {
+          if (error.response.status === 422) {
+            const validationErrors = error.response.data.errors;
+            Object.keys(validationErrors).forEach((key: string) => {
+              setError(key, {
+                message: validationErrors[key][0],
+                type: 'manual',
+              });
+            });
+          }
+        },
+        throwOnError: true,
+      },
+    );
+  };
 
   return (
     <>
