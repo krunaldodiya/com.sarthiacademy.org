@@ -1,16 +1,24 @@
 import React, {memo} from 'react';
-import {ActivityIndicator, Text, View} from 'react-native';
+import {ActivityIndicator, Alert, Text, View} from 'react-native';
 import {useQuery} from 'react-query';
 import {axiosInstance} from 'src/libs/httpClient';
 
 export const Countries = memo(() => {
-  const {data: countries, status} = useQuery('countries', async () => {
-    const res = await axiosInstance.get(
-      'https://api.sarthiacademy.in/api/countries',
-    );
+  const {data: countries, status} = useQuery(
+    'countries',
+    async () => {
+      const res = await axiosInstance.get(
+        'https://api.sarthiacademy.in/api/countries',
+      );
 
-    return res.data.countries;
-  });
+      return res.data.countries;
+    },
+    {
+      onError: (error) => {
+        Alert.alert('error', JSON.stringify(error));
+      },
+    },
+  );
 
   if (status === 'loading') {
     return <ActivityIndicator />;
