@@ -40,6 +40,7 @@ function RootStackNavigator() {
 
   const {initialScreen} = useStoreState((state) => state.home);
   const {files} = useStoreState((state) => state.download);
+  console.log(initialScreen, 'initialScreen');
 
   const downloadActions: any = useStoreActions((actions) => actions.download);
 
