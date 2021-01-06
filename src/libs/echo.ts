@@ -4,9 +4,9 @@ import PusherNative from 'pusher-js/react-native';
 const options = {
   cluster: 'mt1',
   key: 'myAppKey',
-  wsHost: 'api.sarthiacademy.in',
+  wsHost: 'v2.sarthiacademy.in',
   wsPort: 6001,
-  wssHost: 'api.sarthiacademy.in',
+  wssHost: 'v2.sarthiacademy.in',
   wssPort: 6001,
   // auth: {
   //   headers: {
