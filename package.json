@@ -27,7 +27,7 @@
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "axios": "^0.21.1",
-    "easy-peasy": "^4.0.1",
+    "easy-peasy": "^3.3.1",
     "laravel-echo": "^1.10.0",
     "moment": "^2.29.1",
     "pusher-js": "^7.0.2",
